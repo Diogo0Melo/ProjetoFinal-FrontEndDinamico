@@ -15,6 +15,9 @@ btn.addEventListener("click", () => {
         .then((userCredential) => {
             const user = userCredential.user;
             addUser(user);
+            localStorage.setItem(user.uid, []);
+            sessionStorage.setItem("@visited", true);
+            sessionStorage.setItem(user.uid, JSON.stringify(user));
             window.location.href = "/public/index.html";
         })
         .catch((error) => {
