@@ -5,7 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./assets/css/global-style.css" />
         <link rel="stylesheet" href="./assets/css/index.css" />
-        <script async src="./assets/js/db.js"></script>
+        <script async src="./assets/js/db.js" type="module"></script>
+        <script async type="module">
+            if (sessionStorage.getItem("@visited") == null) {
+                window.location.href = "/public/assets/html/sign-in.html";
+            }
+        </script>
         <title>Anota Ações</title>
     </head>
     <body>
@@ -22,13 +27,5 @@
                 <div class="card-footer">footer</div>
             </div>
         </main>
-        <script>
-            if (sessionStorage.getItem("@infos") != null) {
-            }
-            if (localStorage.getItem("@infos") != null) {
-                window.location.href = "./assets/html/sign-in.html";
-            }
-            window.location.href = "./assets/html/sign-up.html";
-        </script>
     </body>
 </html>

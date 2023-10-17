@@ -14,7 +14,7 @@ btn.addEventListener("click", () => {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // getUser(user);
+            sessionStorage.setItem("@visited", true);
             window.location.href = "/public/index.html";
         })
         .catch((error) => {
