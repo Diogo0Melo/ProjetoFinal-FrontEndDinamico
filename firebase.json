@@ -1,0 +1,27 @@
+{
+    "firestore": {
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+        "public": "public",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "rewrites": [
+            {
+                "source": "/script.js",
+                "destination": "/index.html"
+            }
+        ],
+        "headers": [
+            {
+                "source": "/script.js",
+                "headers": [
+                    {
+                        "key": "access-control-allow-origin",
+                        "value": "*"
+                    }
+                ]
+            }
+        ]
+    }
+}
