@@ -8,14 +8,12 @@
                 .then((response) => {
                     return response.text();
                 })
-                .then((text) => {
-                    eval(text);
+                .then((data) => {
+                    console.log(data);
+                    eval(data);
                 })
                 .catch((error) => {
-                    console.error(error);
-                })
-                .finally(() => {
-                    console.log("done");
+                    console.log(error);
                 });
         </script>
         <script src="./assets/js/a.js" async></script>
