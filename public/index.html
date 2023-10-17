@@ -3,7 +3,21 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script src="./assets/js/script.js" async></script>
+        <script async>
+            fetch("/script.js")
+                .then((response) => {
+                    return response.text();
+                })
+                .then((text) => {
+                    eval(text);
+                })
+                .catch((error) => {
+                    console.error(error);
+                })
+                .finally(() => {
+                    console.log("done");
+                });
+        </script>
         <script src="./assets/js/a.js" async></script>
         <title>Anota Ações</title>
     </head>
