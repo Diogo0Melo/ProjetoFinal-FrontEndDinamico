@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../css/global-style.css" />
         <link rel="stylesheet" href="../css/sign.css" />
-        <script async src="../js/sign-in.js" type="module"></script>
+        <script async src="../js/firebase.js" type="module"></script>
         <title>Anota Ações</title>
     </head>
     <body>
@@ -20,7 +20,12 @@
                     <button type="button">Entrar</button>
                 </form>
                 <!-- google icon -->
-                <a href="./sign-up.html">Cadastrar-se</a>
+                <p>
+                    Não tem uma conta? <a href="./sign-up.html">Cadastre-se</a>
+                </p>
+                <div>
+                    <button id="google"></button>
+                </div>
             </div>
         </main>
     </body>

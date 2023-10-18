@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="../css/global-style.css" />
         <link rel="stylesheet" href="../css/sign.css" />
-        <script async src="../js/sign-up.js" type="module"></script>
+        <script async src="../js/firebase.js" type="module"></script>
         <title>Anota Ações</title>
     </head>
     <body>
@@ -13,6 +13,8 @@
             <div>
                 <form>
                     <h1>Cadastrar-se</h1>
+                    <label for="username">Nome de usuário</label>
+                    <input type="text" name="username" id="username" />
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" />
                     <label for="password">Senha</label>
@@ -20,7 +22,10 @@
                     <button type="button">Cadastrar</button>
                 </form>
                 <!-- google icon -->
-                <a href="./sign-in.html">Entrar</a>
+                <p>Já tem uma conta? <a href="./sign-in.html">Entrar</a></p>
+                <div>
+                    <button id="google"></button>
+                </div>
             </div>
         </main>
     </body>
