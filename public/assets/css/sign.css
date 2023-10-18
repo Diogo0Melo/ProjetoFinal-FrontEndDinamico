@@ -20,12 +20,12 @@ main {
     align-items: center;
     background-color: whitesmoke;
 }
-div {
+main > div {
     background-color: white;
     border: 4rem solid white;
     border-radius: 1rem;
-    text-align: center;
-    outline: auto 0.5rem black;
+    width: 40rem;
+    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.059);
 }
 h1 {
     font-size: 2.4rem;
@@ -38,13 +38,27 @@ form {
     gap: 1rem;
 }
 input {
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 1rem 1.8rem;
+    border: solid 1px rgba(0, 0, 0, 0.696);
+    border-radius: 2rem;
 }
 button {
+    background-color: white;
+    border: solid 1px rgba(0, 0, 0, 0.696);
     padding: 1rem;
     margin: 1.2rem 0;
+    border-radius: 2rem;
+}
+button:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: 0.5s;
 }
 a {
     margin-top: 1.2rem;
+}
+@media screen and (max-width: 500px) {
+    div {
+        width: 90%;
+    }
 }
