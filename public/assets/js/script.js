@@ -44,9 +44,9 @@ window.onload = function() {
 function concluiu() {
     const botaoConcluir = document.getElementById("btConcluir");
     botaoConcluir.classList.toggle('tarefa-concluida');
-    if (botaoConcluir.textContent = 'Concluir') {
+    if (botaoConcluir.textContent === 'Concluir') {
         botaoConcluir.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`
-    } else if(botaoConcluir.textContent=`Concluída <i class="bi bi-check-circle-fill"></i>`){
+    } else{
         botaoConcluir.innerHTML = 'Concluir'
+      }
     }
-}
