@@ -43,3 +43,20 @@
     background-color: #4BBF39;
     border-color: #4BBF39;
 }
+.iconizao{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    color: gray;
+    height: calc(100vh - 58px);
+
+}
+.iconizao>span{
+    font-size: 20px;
+    color: black;
+    font-weight: 800;
+    position: relative;
+    top: -20px;
+}

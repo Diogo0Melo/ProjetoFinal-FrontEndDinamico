@@ -10,6 +10,7 @@ window.onload = function () {
       <button class="btn btn-primary" id="btConcluir" onclick="concluiu()">Concluir</button>
   </div>
   
+
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -25,7 +26,7 @@ window.onload = function () {
               </div>
               <div class="mb-3">
                 <label for="message-text" class="col-form-label">Descrição:</label>
-                <textarea class="form-control" id="message-text"></textarea>
+                <textarea rows="9" class="form-control" id="message-text"></textarea>
               </div>
             </form>
           </div>
@@ -42,9 +43,11 @@ window.onload = function () {
 function concluiu() {
     const botaoConcluir = document.getElementById("btConcluir");
     botaoConcluir.classList.toggle("tarefa-concluida");
-    if (botaoConcluir.textContent == "Concluir") {
+    if ((botaoConcluir.textContent = "Concluir")) {
         botaoConcluir.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
-    } else {
+    } else if (
+        (botaoConcluir.textContent = `Concluída <i class="bi bi-check-circle-fill"></i>`)
+    ) {
         botaoConcluir.innerHTML = "Concluir";
     }
 }
