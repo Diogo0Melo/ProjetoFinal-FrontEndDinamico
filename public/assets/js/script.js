@@ -1,7 +1,6 @@
-const main = document.querySelector('main');
-window.onload = function() {
-    main.innerHTML=
-    `<div class="card cp">
+const main = document.querySelector("main");
+window.onload = function () {
+    main.innerHTML = `<div class="card cp">
     <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
       <h5 class="card-title">Card title</h5>
       <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
@@ -37,16 +36,15 @@ window.onload = function() {
         </div>
       </div>
     </div>
-  `
-}
-
+  `;
+};
 
 function concluiu() {
     const botaoConcluir = document.getElementById("btConcluir");
-    botaoConcluir.classList.toggle('tarefa-concluida');
-    if (botaoConcluir.textContent = 'Concluir') {
-        botaoConcluir.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`
-    } else if(botaoConcluir.textContent=`Concluída <i class="bi bi-check-circle-fill"></i>`){
-        botaoConcluir.innerHTML = 'Concluir'
+    botaoConcluir.classList.toggle("tarefa-concluida");
+    if (botaoConcluir.textContent == "Concluir") {
+        botaoConcluir.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
+    } else {
+        botaoConcluir.innerHTML = "Concluir";
     }
 }

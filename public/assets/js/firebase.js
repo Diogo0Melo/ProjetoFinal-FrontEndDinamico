@@ -26,7 +26,7 @@ const firebaseConfig = {
     appId: "1:766236256676:web:bcc32733297b79a0f77931",
 };
 const app = initializeApp(firebaseConfig);
-
+const indexPageRoute = "/public/";
 // banco de dados
 
 const db = getFirestore(app);
@@ -60,7 +60,7 @@ async function login() {
     if (url.includes("sign-in")) {
         await signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                window.location.href = "/public/index.html";
+                window.location.href = indexPageRoute;
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -72,7 +72,7 @@ async function login() {
             .then(async (userCredential) => {
                 const user = userCredential.user;
                 await addUserToDB(user, username);
-                window.location.href = "/public/index.html";
+                window.location.href = indexPageRoute;
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -94,7 +94,7 @@ async function loginGoogle() {
             // const token = credential.accessToken;
             const user = result.user;
             await addUserToDB(user, user.displayName);
-            window.location.href = "/public/index.html";
+            window.location.href = indexPageRoute;
         })
         .catch((error) => {
             const errorCode = error.code;
