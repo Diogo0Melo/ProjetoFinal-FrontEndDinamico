@@ -9,6 +9,7 @@
 }
 .card-body{
     margin: 8px;
+    text-align: center;
 }
 .card-title{
     font-weight: 600;
@@ -17,7 +18,6 @@
     text-align: center;
 }
 .card-text{
-    text-align: center;
     font-weight: 400;
     font-size: 17px;
 }
@@ -25,4 +25,21 @@
     font-weight: 300;
     margin-top: 5px;
     text-align: center;
+    font-size: 14px;
+    background-color: #fcfcfc;
+}
+.btn-primary{
+    width: 50%;
+    align-self: center;
+}
+.cp{
+    cursor: pointer;
+}
+.tarefa-concluida{
+    background-color: #2BE800;
+    border-color: #2BE800;
+}
+.tarefa-concluida:hover{
+    background-color: #4BBF39;
+    border-color: #4BBF39;
 }
