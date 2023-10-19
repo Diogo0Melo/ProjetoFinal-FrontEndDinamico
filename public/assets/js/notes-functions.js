@@ -73,12 +73,15 @@ function completedNote(event) {
         event.target.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
         userInfos.notes[index].completed = true;
         localStorage.setItem(userID, JSON.stringify(userInfos));
-    } else if (event.target.textContent.includes("Concluída")) {
-        event.target.innerHTML = "Concluir";
-
-        userInfos.notes[index].completed = false;
-        localStorage.setItem(userID, JSON.stringify(userInfos));
+        return;
     }
+    if (!event.target.textContent.includes("Concluída")) {
+        return;
+    }
+    event.target.innerHTML = "Concluir";
+
+    userInfos.notes[index].completed = false;
+    localStorage.setItem(userID, JSON.stringify(userInfos));
 }
 function removeNote(event) {
     const card = event.target.parentNode.parentNode;
@@ -91,32 +94,40 @@ function removeNote(event) {
 }
 
 const exampleModal = document.getElementById("exampleModal");
-
+const modalSaveButton = exampleModal.querySelector("#add-note");
 function editContent(event) {
     const card = event.relatedTarget;
+    if (card instanceof HTMLAnchorElement) {
+        modalSaveButton.removeEventListener("click", editModalSave);
+        return;
+    }
     const title = card.querySelector(".card-title").textContent;
     const description = card.querySelector(".card-text").textContent;
     const modalTitle = exampleModal.querySelector(".modal-title");
     const modalInputTitle = exampleModal.querySelector(".modal-body input");
     const modalTextArea = exampleModal.querySelector(".modal-body textarea");
-    const modalSaveButton = exampleModal.querySelector("#add-note");
     modalTitle.textContent = "Editar Nota";
     modalInputTitle.value = title;
     modalTextArea.value = description;
-    modalSaveButton.addEventListener("click", () => {
-        const index = userInfos.notes.findIndex((note) => {
-            return note.title === card.querySelector("h5").textContent;
-        });
-        userInfos.notes[index].title = modalInputTitle.value;
-        userInfos.notes[index].description = modalTextArea.value;
-        localStorage.setItem(userID, JSON.stringify(userInfos));
-        location.reload();
-    });
+    modalSaveButton.addEventListener(
+        "click",
+        editModalSave.bind(null, event, modalInputTitle, modalTextArea, card)
+    );
     modalSaveButton.removeEventListener("click", newNote);
+}
+function editModalSave(event, modalInputTitle, modalTextArea, card) {
+    const index = userInfos.notes.findIndex((note) => {
+        return note.title === card.querySelector("h5").textContent;
+    });
+    userInfos.notes[index].title = modalInputTitle.value;
+    userInfos.notes[index].description = modalTextArea.value;
+    localStorage.setItem(userID, JSON.stringify(userInfos));
+    location.reload();
 }
 exampleModal.addEventListener("show.bs.modal", (event) => {
     const modalTitle = exampleModal.querySelector(".modal-title");
     modalTitle.textContent = "Criar Nova Nota";
+    modalSaveButton.addEventListener("click", newNote);
 });
 exampleModal.addEventListener("show.bs.modal", editContent);
 
