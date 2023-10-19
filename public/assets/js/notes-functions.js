@@ -34,7 +34,7 @@ async function newNote() {
     const description = document.querySelector("#note-description").value;
     sec.innerHTML += `
     <div class="card cp">
-    <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <div class="card-body" onclick="editContent(this)">
       <h5 class="card-title">${title}</h5>
       <p class="card-text">${description}</p>
         <div class="card-footer">Ultima modificação - 18/10</div>
