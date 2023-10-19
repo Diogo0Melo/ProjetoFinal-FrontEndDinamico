@@ -89,8 +89,39 @@ function removeNote(event) {
     localStorage.setItem(userID, JSON.stringify(userInfos));
     card.remove();
 }
-// function editContent(card){
-//         document.getElementById("exampleModal").innerHTML=`
+
+const exampleModal = document.getElementById("exampleModal");
+
+function editContent(event) {
+    const card = event.relatedTarget;
+    const title = card.querySelector(".card-title").textContent;
+    const description = card.querySelector(".card-text").textContent;
+    const modalTitle = exampleModal.querySelector(".modal-title");
+    const modalInputTitle = exampleModal.querySelector(".modal-body input");
+    const modalTextArea = exampleModal.querySelector(".modal-body textarea");
+    const modalSaveButton = exampleModal.querySelector("#add-note");
+    modalTitle.textContent = "Editar Nota";
+    modalInputTitle.value = title;
+    modalTextArea.value = description;
+    modalSaveButton.addEventListener("click", () => {
+        const index = userInfos.notes.findIndex((note) => {
+            return note.title === card.querySelector("h5").textContent;
+        });
+        userInfos.notes[index].title = modalInputTitle.value;
+        userInfos.notes[index].description = modalTextArea.value;
+        localStorage.setItem(userID, JSON.stringify(userInfos));
+        location.reload();
+    });
+    modalSaveButton.removeEventListener("click", newNote);
+}
+exampleModal.addEventListener("show.bs.modal", (event) => {
+    const modalTitle = exampleModal.querySelector(".modal-title");
+    modalTitle.textContent = "Criar Nova Nota";
+});
+exampleModal.addEventListener("show.bs.modal", editContent);
+
+// function editContent(card) {
+//     document.getElementById("exampleModal").innerHTML = `
 //         <div class="modal-dialog">
 //         <div class="modal-content">
 //             <div class="modal-header">
@@ -116,7 +147,7 @@ function removeNote(event) {
 //                             type="text"
 //                             class="form-control"
 //                             id="note-title"
-//                             value="${1+1}"
+//                             value="${1 + 1}"
 //                         />
 //                     </div>
 //                     <div class="mb-3">
@@ -129,7 +160,7 @@ function removeNote(event) {
 //                             rows="9"
 //                             class="form-control"
 //                             id="note-description"
-//                         >${2+4}</textarea>
+//                         >${2 + 4}</textarea>
 //                     </div>
 //                 </form>
 //             </div>
@@ -151,6 +182,6 @@ function removeNote(event) {
 //                 </button>
 //             </div>
 //         </div>
-//     </div>`
+//     </div>`;
 // }
 export { loadNotesFromStorage, newNote };
