@@ -42,9 +42,9 @@ async function addUserToDB(user, username) {
         where("uid", "==", user.uid)
     );
     if (userRef.empty) return;
-    await addDoc(collection(db, "users"), {
+    await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        username: user.displayName,
+        username: user.displayName || username,
         notes: [],
     });
     localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
@@ -73,7 +73,9 @@ async function login() {
     const url = window.location.href;
     if (url.includes("sign-in")) {
         await signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
+                const user = userCredential.user;
+                await addUserToDB(user, username);
                 window.location.href = indexPageRoute;
             })
             .catch((error) => {

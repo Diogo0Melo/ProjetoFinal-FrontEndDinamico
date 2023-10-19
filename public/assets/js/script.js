@@ -10,7 +10,7 @@ window.onload = async () => {
     btnAddNote?.addEventListener("click", newNote);
 };
 
-const sec = document.getElementById("police");
+// const sec = document.getElementById("police");
 // for (let i = 0; i < 5; i++) {
 //     sec.innerHTML += `
 // <div class="card" id="cardCarregamento" aria-hidden="true">
@@ -111,3 +111,11 @@ function createModalAndNoteContainer() {
             </div>
 `;
 }
+function logout(event) {
+    event.preventDefault();
+    sessionStorage.removeItem("@visited");
+    sessionStorage.removeItem("@user");
+    location.reload();
+}
+const btnLogout = document.querySelector("#logout");
+btnLogout?.addEventListener("click", logout);

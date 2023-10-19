@@ -3,7 +3,6 @@ import { getInfosFromDB, updateUserInDB } from "./firebase.js";
 const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 let userInfos = JSON.parse(localStorage.getItem(userID));
-let i = 0;
 async function loadNotesFromStorage() {
     if (!userInfos) {
         await getInfosFromDB(userID);
@@ -36,24 +35,21 @@ async function loadNotesFromStorage() {
         btnConcluir.addEventListener("click", completedNote);
         btnExcluir.addEventListener("click", removeNote);
     });
+    userInfos = JSON.parse(localStorage.getItem(userID));
+    let i = 0;
+    userInfos.notes.forEach((note) => {
+        if (note.completed) {
+            const btn = cards[i].querySelector("button");
+            btn.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
+            btn.classList.add("tarefa-concluida");
+        }
+        i++;
+    });
 }
 
 async function newNote() {
     const title = document.querySelector("#note-title").value;
     const description = document.querySelector("#note-description").value;
-    sec.innerHTML += `
-    <div class="card cp">
-    <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      <h5 class="card-title">${title}</h5>
-      <p class="card-text">${description}</p>
-        <div class="card-footer">Ultima modificação - 18/10</div>
-      </div>
-      <div class="d-flex flex-direction-row">
-      <button class="btn btn-primary" id="btConcluir${++i}" >Concluir</button>
-      <button class="btn btn-danger btn-primary" id="btExcluir" >Excluir</button>
-      </div>
-  </div>
-    `;
     if (!userInfos) {
         await getInfosFromDB(userID);
         userInfos = JSON.parse(localStorage.getItem(userID));
@@ -65,23 +61,30 @@ async function newNote() {
     userInfos.notes.push(note);
     localStorage.setItem(userID, JSON.stringify(userInfos));
     await updateUserInDB(userID, userInfos);
-    document
-        .querySelector("#btConcluir" + i)
-        .addEventListener("click", completedNote);
-    // document.querySelector("#btExcluir").addEventListener("click", removeNote);
     location.reload();
 }
 function completedNote(event) {
     event.target.classList.toggle("tarefa-concluida");
+    const card = event.target.parentNode.parentNode;
+    const index = userInfos.notes.findIndex((note) => {
+        return note.title === card.querySelector("h5").textContent;
+    });
     if (event.target.textContent == "Concluir") {
         event.target.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
+        userInfos.notes[index].completed = true;
+        localStorage.setItem(userID, JSON.stringify(userInfos));
     } else if (event.target.textContent.includes("Concluída")) {
         event.target.innerHTML = "Concluir";
+
+        userInfos.notes[index].completed = false;
+        localStorage.setItem(userID, JSON.stringify(userInfos));
     }
 }
 function removeNote(event) {
     const card = event.target.parentNode.parentNode;
-    const index = card.dataset.index;
+    const index = userInfos.notes.findIndex((note) => {
+        return note.title === card.querySelector("h5").textContent;
+    });
     userInfos.notes.splice(index, 1);
     localStorage.setItem(userID, JSON.stringify(userInfos));
     card.remove();
