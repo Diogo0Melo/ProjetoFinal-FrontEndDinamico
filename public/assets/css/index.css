@@ -69,3 +69,8 @@
     position: relative;
     top: -20px;
 }
+.d-flex div:nth-of-type(1){
+    position: relative;
+    margin: auto;
+    user-select: none;
+}

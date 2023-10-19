@@ -60,9 +60,11 @@ async function newNote() {
         .querySelector("#btConcluir" + i)
         .addEventListener("click", completed);
     // document.querySelector("#btExcluir").addEventListener("click", removeNote);
+    location.reload();
 }
 function completed(event) {
     console.log(event.target);
+    // const botaoConcluir = document.getElementById(`btConcluir${i}`);
     // botaoConcluir.classList.toggle("tarefa-concluida");
     // if (botaoConcluir.textContent == "Concluir") {
     //     botaoConcluir.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
