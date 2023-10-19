@@ -33,15 +33,6 @@ const sec = document.getElementById("police");
 // </div>`;
 // }
 
-function concluiu() {
-    const botaoConcluir = document.getElementById("btConcluir");
-    botaoConcluir.classList.toggle("tarefa-concluida");
-    if (botaoConcluir.textContent == "Concluir") {
-        botaoConcluir.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
-    } else {
-        botaoConcluir.innerHTML = "Concluir";
-    }
-}
 function createModalAndNoteContainer() {
     if (userInfos.notes.length > 0) return;
     main.innerHTML = `
