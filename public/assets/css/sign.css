@@ -57,8 +57,12 @@ button:hover {
 a {
     margin-top: 1.2rem;
 }
-@media screen and (max-width: 500px) {
-    div {
+#google {
+    cursor: pointer;
+    width: 3.2rem;
+}
+@media screen and (max-width: 720px) {
+    main > div {
         width: 90%;
     }
 }

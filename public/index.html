@@ -1,75 +1,214 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./assets/css/global-style.css">
-  <link rel="stylesheet" href="./assets/css/index.css">
-          <script async type="module">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./assets/css/global-style.css" />
+        <link rel="stylesheet" href="./assets/css/index.css" />
+        <script async type="module">
             if (sessionStorage.getItem("@visited") == null) {
                 window.location.href = "./assets/html/sign-up.html";
             }
         </script>
         <script async src="./assets/js/firebase.js" type="module"></script>
-  <title>Anota Ações</title>
-</head>
+        <title>Anota Ações</title>
+    </head>
 
-<body>
+    <body>
+        <header class="p-3 text-bg-dark">
+            <div class="container">
+                <div
+                    class="d-flex flex-wrap align-items-center justify-content-space-evenly justify-content-lg-start"
+                >
+                    <a
+                        href="/"
+                        class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+                    >
+                        <svg
+                            class="bi me-2"
+                            width="40"
+                            height="32"
+                            role="img"
+                            aria-label="Bootstrap"
+                        >
+                            <use xlink:href="#bootstrap"></use>
+                        </svg>
+                    </a>
 
-  <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">LogoMassa</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Novo
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item cp" data-bs-toggle="modal" data-bs-target="#exampleModal">Nova tarefa</a></li>
-                <li><a class="dropdown-item cp" href="#">Ajuda</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item cp" href="#">Sair</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
-    </nav>
-  </header>
-  <main class="container">
-    
-    <!-- Card de carregamento -->
-    <div class="card" id="cardCarregamento" aria-hidden="true">
-      <div class="card-body">
-        <h5 class="card-title placeholder-glow">
-          <span class="placeholder col-6"></span>
-        </h5>
-        <p class="card-text placeholder-glow">
-          <span class="placeholder col-7"></span>
-          <span class="placeholder col-4"></span>
-          <span class="placeholder col-4"></span>
-          <span class="placeholder col-6"></span>
-          <span class="placeholder col-8"></span>
-        </p>
-        <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
-      </div>
-    </div>
-    
-  </main>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-    <script src="./assets/js/script.js"></script>
-</body>
+                    <ul
+                        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+                    >
+                        <li>
+                            <a
+                                href="#"
+                                class="nav-link text-white"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                >Nova Nota</a
+                            >
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-3 text-white"
+                                >Sair</a
+                            >
+                        </li>
+                    </ul>
+                    <div>
+                        <h1 id="welcome-message" class="text-white">
+                            <!-- adicionarMsgDeBemVindoComNickDoUsuario -->
+                            bababoi
+                        </h1>
+                    </div>
+                    <form
+                        class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
+                        role="search"
+                    >
+                        <input
+                            type="search"
+                            class="form-control form-control-dark text-bg-dark"
+                            placeholder="Search..."
+                            aria-label="Search"
+                        />
+                    </form>
 
+                    <div class="text-end">
+                        <button
+                            type="button"
+                            class="btn btn-outline-light me-2"
+                        >
+                            Procurar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="container mt-4">
+            <section id="police">
+                <!-- Card de carregamento -->
+                <!-- <div class="card" id="cardCarregamento" aria-hidden="true">
+                    <div class="card-body">
+                        <h5 class="card-title placeholder-glow">
+                            <span class="placeholder col-6"></span>
+                        </h5>
+                        <p class="card-text placeholder-glow">
+                            <span class="placeholder col-7"></span>
+                            <span class="placeholder col-4"></span>
+                            <span class="placeholder col-4"></span>
+                            <span class="placeholder col-6"></span>
+                            <span class="placeholder col-8"></span>
+                        </p>
+                        <a
+                            class="btn btn-primary disabled placeholder col-6"
+                            aria-disabled="true"
+                        ></a>
+                    </div>
+                </div> -->
+            </section>
+            <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Criar Nova Nota
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label
+                                        for="recipient-name"
+                                        class="col-form-label"
+                                        >Título:</label
+                                    >
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="note-title"
+                                    />
+                                </div>
+                                <div class="mb-3">
+                                    <label
+                                        for="message-text"
+                                        class="col-form-label"
+                                        >Descrição:</label
+                                    >
+                                    <textarea
+                                        rows="9"
+                                        class="form-control"
+                                        id="note-description"
+                                    ></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                id="add-note"
+                                class="btn btn-primary"
+                            >
+                                Salvar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"
+        ></script>
+        <script src="./assets/js/script.js" type="module"></script>
+
+        <footer class="py-3 my-4">
+            <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary"
+                        >Home</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary"
+                        >Features</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary"
+                        >Pricing</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary"
+                        >FAQs</a
+                    >
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link px-2 text-body-secondary"
+                        >About</a
+                    >
+                </li>
+            </ul>
+            <p class="text-center text-body-secondary">© 2023 Company, Inc</p>
+        </footer>
+    </body>
 </html>

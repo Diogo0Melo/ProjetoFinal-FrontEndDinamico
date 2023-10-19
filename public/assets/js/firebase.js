@@ -6,6 +6,8 @@ import {
     addDoc,
     query,
     where,
+    setDoc,
+    doc,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import {
     getAuth,
@@ -26,7 +28,7 @@ const firebaseConfig = {
     appId: "1:766236256676:web:bcc32733297b79a0f77931",
 };
 const app = initializeApp(firebaseConfig);
-
+const indexPageRoute = "/public/";
 // banco de dados
 
 const db = getFirestore(app);
@@ -39,7 +41,7 @@ async function addUserToDB(user, username) {
         collection(db, "users"),
         where("uid", "==", user.uid)
     );
-    if (!userRef.empty) return;
+    if (userRef.empty) return;
     await addDoc(collection(db, "users"), {
         uid: user.uid,
         username: user.displayName,
@@ -47,6 +49,18 @@ async function addUserToDB(user, username) {
     });
     localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
 }
+async function getInfosFromDB(userID) {
+    const userRef = await query(
+        collection(db, "users"),
+        where("uid", "==", userID)
+    );
+    const user = await getDocs(userRef);
+    localStorage.setItem(userID, JSON.stringify(user.docs[0].data()));
+}
+async function updateUserInDB(userID, notes) {
+    await setDoc(doc(db, "users", userID), notes);
+}
+export { getInfosFromDB, updateUserInDB };
 
 // cadastramento e login de usuário
 
@@ -60,7 +74,7 @@ async function login() {
     if (url.includes("sign-in")) {
         await signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                window.location.href = "/public/index.html";
+                window.location.href = indexPageRoute;
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -72,7 +86,7 @@ async function login() {
             .then(async (userCredential) => {
                 const user = userCredential.user;
                 await addUserToDB(user, username);
-                window.location.href = "/public/index.html";
+                window.location.href = indexPageRoute;
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -94,7 +108,7 @@ async function loginGoogle() {
             // const token = credential.accessToken;
             const user = result.user;
             await addUserToDB(user, user.displayName);
-            window.location.href = "/public/index.html";
+            window.location.href = indexPageRoute;
         })
         .catch((error) => {
             const errorCode = error.code;
