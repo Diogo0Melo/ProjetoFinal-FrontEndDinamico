@@ -1,7 +1,9 @@
 .card {
     background-color: #fcfcfc;
     max-width: 290px;
+    max-height: 355.8px;
     min-width: 280px;
+    /* min-height: 245.8px; */
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;
@@ -39,7 +41,8 @@
     background-color: #fcfcfc;
 }
 .btn-primary {
-    width: 50%;
+    width: 45%;
+    margin-inline: 5%;
     align-self: center;
 }
 .cp {
