@@ -3,7 +3,6 @@ import {
     getFirestore,
     collection,
     getDocs,
-    addDoc,
     query,
     where,
     setDoc,
@@ -13,8 +12,6 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut,
     GoogleAuthProvider,
     signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
@@ -28,7 +25,9 @@ const firebaseConfig = {
     appId: "1:766236256676:web:bcc32733297b79a0f77931",
 };
 const app = initializeApp(firebaseConfig);
-const indexPageRoute = "/public/";
+const indexPageRoute = window.location.href.includes("web.app")
+    ? "/"
+    : "/public/";
 // banco de dados
 
 const db = getFirestore(app);
@@ -106,8 +105,6 @@ const provider = new GoogleAuthProvider();
 async function loginGoogle() {
     signInWithPopup(auth, provider)
         .then(async (result) => {
-            // const credential = GoogleAuthProvider.credentialFromResult(result);
-            // const token = credential.accessToken;
             const user = result.user;
             await addUserToDB(user, user.displayName);
             window.location.href = indexPageRoute;
