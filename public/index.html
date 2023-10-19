@@ -9,6 +9,10 @@
             if (sessionStorage.getItem("@visited") == null) {
                 window.location.href = "./assets/html/sign-up.html";
             }
+            const uid = JSON.parse(sessionStorage.getItem("@user")).uid;
+            const user = JSON.parse(localStorage.getItem(uid));
+            const userWelcomeMSG = document.querySelector("#userWelcomeMSG");
+            userWelcomeMSG.textContent = user.username;
         </script>
         <script async src="./assets/js/firebase.js" type="module"></script>
         <title>Anota Ações</title>
@@ -54,8 +58,9 @@
                     </ul>
                     <div>
                         <h1 id="welcome-message" class="text-white">
-                               <!-- adicionarMsgDeBemVindoComNickDoUsuario -->
-                            Bem Vindo <span id="userWelcomeMSG">Jogador Da Silva</span>
+                            <!-- adicionarMsgDeBemVindoComNickDoUsuario -->
+                            Bem Vindo
+                            <span id="userWelcomeMSG">Jogador Da Silva</span>
                         </h1>
                     </div>
                     <form
