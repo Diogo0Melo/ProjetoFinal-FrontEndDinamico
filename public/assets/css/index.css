@@ -1,49 +1,59 @@
-.card{
+.card {
     background-color: #fcfcfc;
     max-width: 290px;
+    min-width: 280px;
     margin: 10px;
-    border: solid 1px rgba(0, 0, 0, 0.696);
+    border: solid 1px #000000b1;
     border-radius: 7px;
     padding: 10px;
-    box-shadow: 1px 1px 10px 5px rgba(0, 0, 0, 0.059);
+    box-shadow: 1px 1px 10px 5px #0000000f;
 }
-.card-body{
+#police {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: start;
+    height: 83vh;
+    overflow: auto;
+    box-shadow: 1px 1px 10px 8px #0000000f;
+    border-radius: 12px;
+}
+.card-body {
     margin: 8px;
     text-align: center;
 }
-.card-title{
+.card-title {
     font-weight: 600;
     font-size: 24px;
     margin-bottom: 5px;
     text-align: center;
 }
-.card-text{
+.card-text {
     font-weight: 400;
     font-size: 17px;
 }
-.card-footer{
+.card-footer {
     font-weight: 300;
     margin-top: 5px;
     text-align: center;
     font-size: 14px;
     background-color: #fcfcfc;
 }
-.btn-primary{
+.btn-primary {
     width: 50%;
     align-self: center;
 }
-.cp{
+.cp {
     cursor: pointer;
 }
-.tarefa-concluida{
-    background-color: #2BE800;
-    border-color: #2BE800;
+.tarefa-concluida {
+    background-color: #2be800;
+    border-color: #2be800;
 }
-.tarefa-concluida:hover{
-    background-color: #4BBF39;
-    border-color: #4BBF39;
+.tarefa-concluida:hover {
+    background-color: #4bbf39;
+    border-color: #4bbf39;
 }
-.iconizao{
+.iconizao {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,9 +61,8 @@
     font-size: 100px;
     color: gray;
     height: calc(100vh - 58px);
-
 }
-.iconizao>span{
+.iconizao > span {
     font-size: 20px;
     color: black;
     font-weight: 800;

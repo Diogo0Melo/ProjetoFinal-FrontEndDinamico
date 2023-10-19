@@ -6,6 +6,8 @@ import {
     addDoc,
     query,
     where,
+    setDoc,
+    doc,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import {
     getAuth,
@@ -39,7 +41,7 @@ async function addUserToDB(user, username) {
         collection(db, "users"),
         where("uid", "==", user.uid)
     );
-    if (!userRef.empty) return;
+    if (userRef.empty) return;
     await addDoc(collection(db, "users"), {
         uid: user.uid,
         username: user.displayName,
@@ -47,6 +49,18 @@ async function addUserToDB(user, username) {
     });
     localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
 }
+async function getInfosFromDB(userID) {
+    const userRef = await query(
+        collection(db, "users"),
+        where("uid", "==", userID)
+    );
+    const user = await getDocs(userRef);
+    localStorage.setItem(userID, JSON.stringify(user.docs[0].data()));
+}
+async function updateUserInDB(userID, notes) {
+    await setDoc(doc(db, "users", userID), notes);
+}
+export { getInfosFromDB, updateUserInDB };
 
 // cadastramento e login de usuário
 
