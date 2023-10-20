@@ -96,10 +96,14 @@ function removeNote(event) {
 
 const exampleModal = document.getElementById("exampleModal");
 const modalSaveButton = exampleModal.querySelector("#add-note");
+const modalSaveButtonFunction = () => {
+    editModalSave(modalInputTitle, modalTextArea, card);
+};
 function editContent(event) {
     const card = event.relatedTarget;
+
     if (card instanceof HTMLAnchorElement) {
-        modalSaveButton.removeEventListener("click", editModalSave);
+        modalSaveButton.removeEventListener("click", modalSaveButtonFunction);
         return;
     }
     const title = card.querySelector(".card-title").textContent;
@@ -107,16 +111,14 @@ function editContent(event) {
     const modalTitle = exampleModal.querySelector(".modal-title");
     const modalInputTitle = exampleModal.querySelector(".modal-body input");
     const modalTextArea = exampleModal.querySelector(".modal-body textarea");
+
     modalTitle.textContent = "Editar Nota";
     modalInputTitle.value = title;
     modalTextArea.value = description;
-    modalSaveButton.addEventListener(
-        "click",
-        editModalSave.bind(null, event, modalInputTitle, modalTextArea, card)
-    );
+    modalSaveButton.addEventListener("click", modalSaveButtonFunction);
     modalSaveButton.removeEventListener("click", newNote);
 }
-function editModalSave(event, modalInputTitle, modalTextArea, card) {
+function editModalSave(modalInputTitle, modalTextArea, card) {
     const index = userInfos.notes.findIndex((note) => {
         return note.title === card.querySelector("h5").textContent;
     });
