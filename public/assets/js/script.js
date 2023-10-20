@@ -51,5 +51,5 @@ window.onload = async () => {
     btnLogout.addEventListener("click", logout);
     exampleModal.addEventListener("shown.bs.modal", editContent);
     createFirstNoteIconOrNoteContainer();
-    loadNotesFromStorage();
+    await loadNotesFromStorage();
 };
