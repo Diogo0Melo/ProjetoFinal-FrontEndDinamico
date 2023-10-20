@@ -1,21 +1,8 @@
-import {
-    loadNotesFromStorage,
-    newNote,
-    editContent,
-} from "./notes-functions.js";
+import { loadNotesFromStorage, newNote, editContent } from "./notes-func.js";
 
 const main = document.querySelector("main");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 const userInfos = JSON.parse(localStorage.getItem(userID));
-window.onload = async () => {
-    const btnAddNote = document.querySelector("#add-note");
-    const btnLogout = document.querySelector("#logout");
-    createFirstNoteIconOrNoteContainer();
-    await loadNotesFromStorage();
-    btnAddNote?.addEventListener("click", newNote);
-    btnLogout?.addEventListener("click", logout);
-};
-
 // const sec = document.getElementById("police");
 // for (let i = 0; i < 5; i++) {
 //     sec.innerHTML += `
@@ -56,3 +43,13 @@ function logout(event) {
     sessionStorage.removeItem("@user");
     location.reload();
 }
+window.onload = async () => {
+    const exampleModal = document.querySelector("#exampleModal");
+    const btnAddNote = document.querySelector("#add-note");
+    const btnLogout = document.querySelector("#logout");
+    btnAddNote.addEventListener("click", newNote);
+    btnLogout.addEventListener("click", logout);
+    exampleModal.addEventListener("shown.bs.modal", editContent);
+    createFirstNoteIconOrNoteContainer();
+    loadNotesFromStorage();
+};

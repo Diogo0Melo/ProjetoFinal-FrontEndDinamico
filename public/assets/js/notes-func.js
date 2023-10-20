@@ -130,6 +130,4 @@ exampleModal.addEventListener("shown.bs.modal", () => {
     modalTitle.textContent = "Criar Nova Nota";
     modalSaveButton.addEventListener("click", newNote);
 });
-
-exampleModal.addEventListener("shown.bs.modal", editContent);
 export { loadNotesFromStorage, newNote, editContent };

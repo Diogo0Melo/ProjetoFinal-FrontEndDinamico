@@ -28,7 +28,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const indexPageRoute = window.location.href.includes("web.app")
     ? "/"
-    : "/public/";
+    : "/public/index.html";
 // banco de dados
 
 const db = getFirestore(app);
@@ -67,8 +67,8 @@ const auth = getAuth();
 const btn = document.querySelector("button");
 async function login() {
     const username = document.querySelector("#username")?.value;
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
+    const email = document.querySelector("#email")?.value;
+    const password = document.querySelector("#password")?.value;
     const url = window.location.href;
     if (url.includes("sign-in")) {
         await signInWithEmailAndPassword(auth, email, password)
