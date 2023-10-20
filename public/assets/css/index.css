@@ -1,8 +1,8 @@
 .card {
     background-color: #fcfcfc;
     max-height: 355.8px;
-    height: 305px;
-    width: 302px;
+    min-height: 305px;
+    min-width: 302px;
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;
@@ -77,4 +77,7 @@
     position: relative;
     margin: auto;
     user-select: none;
+}
+.logo{
+    width: 50px;
 }
