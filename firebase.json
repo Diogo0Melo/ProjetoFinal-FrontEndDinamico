@@ -11,17 +11,6 @@
                 "source": "/script.js",
                 "destination": "/index.html"
             }
-        ],
-        "headers": [
-            {
-                "source": "/script.js",
-                "headers": [
-                    {
-                        "key": "access-control-allow-origin",
-                        "value": "*"
-                    }
-                ]
-            }
         ]
     }
 }
