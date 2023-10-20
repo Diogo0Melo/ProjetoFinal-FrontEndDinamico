@@ -40,7 +40,8 @@ async function addUserToDB(user, username) {
         collection(db, "users"),
         where("uid", "==", user.uid)
     );
-    if (userRef.empty) return;
+    const userData = await getDocs(userRef);
+    if (!userData.empty) return;
     await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         username,
