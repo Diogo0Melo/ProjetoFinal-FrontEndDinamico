@@ -34,7 +34,7 @@ window.onload = async () => {
 // }
 
 function createModalAndNoteContainer() {
-    if (userInfos.notes.length > 0) return;
+    if (userInfos?.notes.length > 0) return;
     main.innerHTML = `
   <div class="iconizao">
   <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi cp bi-clipboard-plus"></i>

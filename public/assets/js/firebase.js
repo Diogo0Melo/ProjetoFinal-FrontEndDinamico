@@ -43,7 +43,7 @@ async function addUserToDB(user, username) {
     if (userRef.empty) return;
     await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        username: user.displayName || username,
+        username,
         notes: [],
     });
     localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
