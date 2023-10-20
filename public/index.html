@@ -12,7 +12,7 @@
             const uid = JSON.parse(sessionStorage.getItem("@user")).uid;
             const user = JSON.parse(localStorage.getItem(uid));
             const userWelcomeMSG = document.querySelector("#userWelcomeMSG");
-            userWelcomeMSG.textContent = user.username;
+            userWelcomeMSG.textContent = user?.username;
         </script>
         <script async src="./assets/js/firebase.js" type="module"></script>
         <title>Anota Ações</title>

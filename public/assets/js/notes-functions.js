@@ -7,6 +7,7 @@ async function loadNotesFromStorage() {
     if (!userInfos) {
         await getInfosFromDB(userID);
         userInfos = JSON.parse(localStorage.getItem(userID));
+        location.reload();
     }
 
     userInfos.notes.forEach((note) => {
