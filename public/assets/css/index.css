@@ -78,9 +78,18 @@
     margin: auto;
     user-select: none;
 }
-.logo{
+.logo {
     width: 50px;
+    border-radius: 6px;
 }
-header{
+header {
     background-color: #282409;
+}
+@media screen and (max-width: 720px) {
+    #police {
+        justify-content: center;
+    }
+    .card {
+        width: 90%;
+    }
 }
