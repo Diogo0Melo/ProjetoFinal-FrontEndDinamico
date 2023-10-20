@@ -27,15 +27,13 @@ const userInfos = JSON.parse(localStorage.getItem(userID));
 // }
 
 function createFirstNoteIconOrNoteContainer() {
+    const icon = document.querySelector(".iconizao");
     if (userInfos?.notes.length > 0) {
-        main.innerHTML += `<section id="police"></section>`;
+        const sec = document.getElementById("police");
+        sec.removeAttribute("hidden");
+        icon.setAttribute("hidden", "");
         return;
     }
-    main.innerHTML += `
-        <div class="iconizao">
-            <i data-bs-toggle="modal" data-bs-target="#exampleModal" class="bi cp bi-clipboard-plus"></i>
-            <span data-bs-toggle="modal" data-bs-target="#exampleModal" class="cp">Nova tarefa</span>
-        </div>`;
 }
 function logout(event) {
     event.preventDefault();
@@ -49,7 +47,8 @@ window.onload = async () => {
     const btnLogout = document.querySelector("#logout");
     btnAddNote.addEventListener("click", newNote);
     btnLogout.addEventListener("click", logout);
-    exampleModal.addEventListener("shown.bs.modal", editContent);
+    exampleModal.addEventListener("show.bs.modal", editContent);
+    exampleModal.addEventListener("hide.bs.modal", () => location.reload());
     createFirstNoteIconOrNoteContainer();
     await loadNotesFromStorage();
 };

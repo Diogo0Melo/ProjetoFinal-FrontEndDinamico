@@ -1,5 +1,6 @@
 import { getInfosFromDB, updateUserInDB } from "./firebase.js";
 
+const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 let userInfos = JSON.parse(localStorage.getItem(userID));
 async function loadNotesFromStorage() {
@@ -8,7 +9,6 @@ async function loadNotesFromStorage() {
         userInfos = JSON.parse(localStorage.getItem(userID));
         location.reload();
     }
-    const sec = document.getElementById("police");
     userInfos.notes.forEach((note) => {
         sec.innerHTML += `
             <div class="card cp">
@@ -95,27 +95,26 @@ function removeNote(event) {
 
 const exampleModal = document.getElementById("exampleModal");
 const modalSaveButton = exampleModal.querySelector("#add-note");
-function modalSaveButtonFunction(e, modalInputTitle, modalTextArea, card) {
-    editModalSave(modalInputTitle, modalTextArea, card);
-}
+
 function editContent(event) {
     const card = event.relatedTarget;
-    const title = card.querySelector(".card-title").textContent;
-    const description = card.querySelector(".card-text").textContent;
     const modalTitle = exampleModal.querySelector(".modal-title");
     const modalInputTitle = exampleModal.querySelector(".modal-body input");
     const modalTextArea = exampleModal.querySelector(".modal-body textarea");
     if (card instanceof HTMLAnchorElement) {
-        modalSaveButton.removeEventListener("click", modalSaveButtonFunction);
-        modalSaveButton.addEventListener("click", newNote);
         modalTitle.textContent = "Criar Nova Nota";
         return;
     }
+    const title = card.querySelector(".card-title").textContent;
+    const description = card.querySelector(".card-text").textContent;
     modalTitle.textContent = "Editar Nota";
     modalInputTitle.value = title;
     modalTextArea.value = description;
     modalSaveButton.addEventListener("click", modalSaveButtonFunction);
     modalSaveButton.removeEventListener("click", newNote);
+    function modalSaveButtonFunction() {
+        editModalSave(modalInputTitle, modalTextArea, card);
+    }
 }
 function editModalSave(modalInputTitle, modalTextArea, card) {
     const index = userInfos.notes.findIndex((note) => {
