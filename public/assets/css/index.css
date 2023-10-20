@@ -1,9 +1,8 @@
 .card {
     background-color: #fcfcfc;
-    max-width: 290px;
     max-height: 355.8px;
-    min-width: 280px;
-    /* min-height: 245.8px; */
+    height: 305px;
+    width: 302px;
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;
@@ -13,11 +12,13 @@
 #police {
     display: flex;
     flex-flow: row wrap;
-    align-items: start;
     height: 83vh;
     overflow: auto;
     box-shadow: 1px 1px 10px 8px #0000000f;
     border-radius: 12px;
+}
+#police::-webkit-scrollbar {
+    display: none;
 }
 .card-body {
     margin: 8px;
@@ -41,8 +42,8 @@
     background-color: #fcfcfc;
 }
 .btn-primary {
-    width: 45%;
-    margin-inline: 5%;
+    width: 100%;
+    margin-inline: 2%;
     align-self: center;
 }
 .cp {
