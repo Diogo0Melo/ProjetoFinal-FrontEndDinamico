@@ -1,6 +1,5 @@
 import { getInfosFromDB, updateUserInDB } from "./firebase.js";
 
-const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 let userInfos = JSON.parse(localStorage.getItem(userID));
 async function loadNotesFromStorage() {
@@ -9,18 +8,18 @@ async function loadNotesFromStorage() {
         userInfos = JSON.parse(localStorage.getItem(userID));
         location.reload();
     }
-
+    const sec = document.getElementById("police");
     userInfos.notes.forEach((note) => {
         sec.innerHTML += `
             <div class="card cp">
-            <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              <h5 class="card-title">${note.title}</h5>
-              <p class="card-text">${note.description}</p>
-                <div class="card-footer">Ultima modificação - 18/10</div>
-              </div>
-              <div class="d-flex flex-direction-row bt-container">
-              </div>
-          </div> `;
+                <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <h5 class="card-title">${note.title}</h5>
+                    <p class="card-text">${note.description}</p>
+                    <div class="card-footer">Ultima modificação - 18/10</div>
+                </div>
+                <div class="d-flex flex-direction-row bt-container">
+                </div>
+            </div> `;
     });
     const cards = document.querySelectorAll("div.card.cp");
     cards.forEach((card) => {
@@ -101,7 +100,6 @@ const modalSaveButtonFunction = () => {
 };
 function editContent(event) {
     const card = event.relatedTarget;
-
     if (card instanceof HTMLAnchorElement) {
         modalSaveButton.removeEventListener("click", modalSaveButtonFunction);
         return;
@@ -127,11 +125,11 @@ function editModalSave(modalInputTitle, modalTextArea, card) {
     localStorage.setItem(userID, JSON.stringify(userInfos));
     location.reload();
 }
-exampleModal.addEventListener("show.bs.modal", (event) => {
+exampleModal.addEventListener("shown.bs.modal", () => {
     const modalTitle = exampleModal.querySelector(".modal-title");
     modalTitle.textContent = "Criar Nova Nota";
     modalSaveButton.addEventListener("click", newNote);
 });
-exampleModal.addEventListener("show.bs.modal", editContent);
 
-export { loadNotesFromStorage, newNote };
+exampleModal.addEventListener("shown.bs.modal", editContent);
+export { loadNotesFromStorage, newNote, editContent };
