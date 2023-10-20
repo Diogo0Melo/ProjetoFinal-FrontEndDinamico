@@ -6,6 +6,7 @@ import {
     query,
     where,
     setDoc,
+    updateDoc,
     doc,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import {
@@ -36,12 +37,12 @@ async function addUserToDB(user, username) {
     sessionStorage.setItem("@user", JSON.stringify(user));
     sessionStorage.setItem("@visited", "true");
     if (localStorage.getItem(user.uid)) return;
-    const userRef = await query(
+    const userRef = query(
         collection(db, "users"),
         where("uid", "==", user.uid)
     );
     const userData = await getDocs(userRef);
-    if (!userData.empty) return;
+    if (!userData.empty || !userData?.docs[0]?.data().notes.length > 0) return;
     await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         username,
@@ -50,15 +51,16 @@ async function addUserToDB(user, username) {
     localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
 }
 async function getInfosFromDB(userID) {
-    const userRef = await query(
-        collection(db, "users"),
-        where("uid", "==", userID)
-    );
+    const userRef = query(collection(db, "users"), where("uid", "==", userID));
     const user = await getDocs(userRef);
     localStorage.setItem(userID, JSON.stringify(user.docs[0].data()));
 }
-async function updateUserInDB(userID, notes) {
-    await setDoc(doc(db, "users", userID), notes);
+async function updateUserInDB(userID, userInfos) {
+    const userRef = doc(db, "users", userID);
+    await updateDoc(userRef, {
+        notes: userInfos.notes,
+        uid: userID,
+    });
 }
 export { getInfosFromDB, updateUserInDB };
 
