@@ -10,6 +10,7 @@
         />
         <link rel="stylesheet" href="./assets/css/global-style.css" />
         <link rel="stylesheet" href="./assets/css/index.css" />
+        <link rel="stylesheet" href="./assets/css/timer.css" />
         <script async type="module">
             if (sessionStorage.getItem("@visited") == null) {
                 window.location.href = "./assets/html/sign-up.html";
@@ -52,8 +53,7 @@
                         </li>
                         <li>
                             <a
-                                href="#"
-                                class="nav-link px-3 text-white"
+                                class="nav-link px-3 text-white cp"
                                 id="logout"
                                 >Sair</a
                             >
@@ -72,7 +72,7 @@
                         <input
                             type="search"
                             class="form-control form-control-dark backg fw"
-                            placeholder="Search..."
+                            placeholder="Pesquisar..."
                             aria-label="Search"
                         />
                     </form>
@@ -174,7 +174,6 @@
                 </div>
             </div>
         </main>
-
         <footer class="py-3 my-4">
             <ul class="nav justify-content-center border-bottom pb-3 mb-3">
                 <li class="nav-item">
@@ -205,5 +204,6 @@
             crossorigin="anonymous"
         ></script>
         <script src="./assets/js/script.js" type="module"></script>
+        <script src="./assets/js/timer.js" type="module"></script>
     </body>
 </html>
