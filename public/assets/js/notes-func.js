@@ -15,7 +15,7 @@ async function loadNotesFromStorage() {
                 <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <h5 class="card-title">${note.title}</h5>
                     <p class="card-text">${note.description}</p>
-                    <div class="card-footer">Sem prazo para conclusão</div>
+                    <div class="card-footer"></div>
                 </div>
                 <div class="d-flex flex-direction-row bt-container">
                 </div>

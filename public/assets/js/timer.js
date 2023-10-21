@@ -1,52 +1,20 @@
-const h = document.getElementById("hora");
-const m = document.querySelector("#minute");
-const s = document.getElementById("second");
-const btnTimer = document.querySelector("#start-timer");
-let timerInterval = null;
+const h = document.getElementById('hora')
+const m = document.querySelector('#minute')
+const s = document.getElementById('second')
 
-function iniciarContagemRegressiva() {
-    const horaAlvo = document.getElementById("hora-alvo").value;
-    const horaAlvoParts = horaAlvo.split(":");
+const reloguinho = setInterval(function timer(){
+    const k = new Date();
+    const hr = k.getHours()
+    const min = k.getMinutes()
+    const sec = k.getSeconds()
 
-    if (horaAlvoParts.length === 2) {
-        const horaAlvoHr = parseInt(horaAlvoParts[0], 10);
-        const horaAlvoMin = parseInt(horaAlvoParts[1], 10);
-
-        if (!isNaN(horaAlvoHr) && !isNaN(horaAlvoMin)) {
-            clearInterval(timerInterval);
-
-            timerInterval = setInterval(function () {
-                const k = new Date();
-                const hr = k.getHours();
-                const min = k.getMinutes();
-                const sec = k.getSeconds();
-
-                let horasRestantes = horaAlvoHr - hr;
-                let minutosRestantes = horaAlvoMin - min;
-                let segundosRestantes = 60 - sec;
-
-                if (segundosRestantes === 60) {
-                    minutosRestantes--;
-                    segundosRestantes = 0;
-                }
-
-                if (minutosRestantes < 0) {
-                    horasRestantes--;
-                    minutosRestantes += 60;
-                }
-
-                if (horasRestantes < 0) {
-                    clearInterval(timerInterval);
-                    horasRestantes = 0;
-                    minutosRestantes = 0;
-                    segundosRestantes = 0;
-                }
-
-                h.textContent = horasRestantes.toString().padStart(2, "0");
-                m.textContent = minutosRestantes.toString().padStart(2, "0");
-                s.textContent = segundosRestantes.toString().padStart(2, "0");
-            }, 1000);
-        }
-    }
-}
-btnTimer.addEventListener("click", iniciarContagemRegressiva);
+    if(hr < 10){
+        h.innerHTML=`0${hr}`}
+        else{h.textContent= hr } 
+    if(min < 10){
+        m.innerHTML=`0${min}`}
+        else{m.textContent= min } 
+    if(sec < 10){
+        s.innerHTML=`0${sec}`}
+        else{s.textContent= sec } 
+})
