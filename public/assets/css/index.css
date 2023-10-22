@@ -63,11 +63,11 @@
     align-items: center;
     font-size: 100px;
     color: gray;
-    height: calc(100vh - 58px);
+    height: calc(100vh - 140px);
 }
 .iconizao > span {
     font-size: 20px;
-    color: black;
+    color: rgba(0, 0, 0, 0.856);
     font-weight: 800;
     position: relative;
     top: -20px;

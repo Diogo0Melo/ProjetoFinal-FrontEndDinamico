@@ -10,11 +10,15 @@ const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 function createFirstNoteIconOrNoteContainer() {
     const userInfos = JSON.parse(localStorage.getItem(userID));
     const icon = document.querySelector(".iconizao");
-    if (userInfos?.notes.length == 0) {
-        return false;
-    }
     const newNoteIcon = document.querySelector("#new-note");
     const sec = document.getElementById("police");
+    if (userInfos?.notes.length == 0) {
+        icon.removeAttribute("hidden");
+        sec.setAttribute("hidden", "");
+        newNoteIcon.setAttribute("hidden", "");
+        return false;
+    }
+
     newNoteIcon.removeAttribute("hidden");
     sec.removeAttribute("hidden");
     icon.setAttribute("hidden", "");
