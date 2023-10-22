@@ -13,7 +13,9 @@ function createFirstNoteIconOrNoteContainer() {
     if (userInfos?.notes.length == 0) {
         return false;
     }
+    const newNoteIcon = document.querySelector("#new-note");
     const sec = document.getElementById("police");
+    newNoteIcon.removeAttribute("hidden");
     sec.removeAttribute("hidden");
     icon.setAttribute("hidden", "");
     return true;
