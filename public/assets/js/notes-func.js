@@ -11,8 +11,8 @@ async function loadNotesFromStorage() {
     }
     userInfos.notes.forEach((note) => {
         sec.innerHTML += `
-            <div class="card cp">
-                <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="card cp" " >
+                <div class="card-body" id="${note.id}" data-bs-toggle="modal"data-bs-target="#exampleModal">
                     <h5 class="card-title">${note.title}</h5>
                     <p class="card-text">${note.description}</p>
                     <div class="card-footer"></div>
@@ -54,7 +54,9 @@ async function newNote() {
         await getInfosFromDB(userID);
         userInfos = JSON.parse(localStorage.getItem(userID));
     }
+    const id = userInfos.noteID++;
     const note = {
+        id,
         title,
         description,
     };
@@ -92,37 +94,42 @@ function removeNote(event) {
     localStorage.setItem(userID, JSON.stringify(userInfos));
     card.remove();
 }
-
-const exampleModal = document.getElementById("exampleModal");
-const modalSaveButton = exampleModal.querySelector("#add-note");
-
-function editContent(event) {
+const modalSaveButton = document.querySelector("#add-note");
+function editNote(event) {
     const card = event.relatedTarget;
-    const modalTitle = exampleModal.querySelector(".modal-title");
-    const modalInputTitle = exampleModal.querySelector(".modal-body input");
-    const modalTextArea = exampleModal.querySelector(".modal-body textarea");
+    const modalTitle = document.querySelector("#exampleModalLabel");
     if (card instanceof HTMLAnchorElement) {
-        modalTitle.textContent = "Criar Nova Nota";
+        modalTitle.innerHTML = "Criar Nova Nota";
+        modalSaveButton.addEventListener("click", newNote);
         return;
     }
-    const title = card.querySelector(".card-title").textContent;
-    const description = card.querySelector(".card-text").textContent;
-    modalTitle.textContent = "Editar Nota";
-    modalInputTitle.value = title;
-    modalTextArea.value = description;
-    modalSaveButton.addEventListener("click", modalSaveButtonFunction);
+    const title = card.querySelector("h5").textContent;
+    const description = card.querySelector("p").textContent;
+
+    modalTitle.innerHTML = "Editar Nota";
+    document.querySelector("#note-title").value = title;
+    document.querySelector("#note-description").value = description;
+    modalSaveButton.setAttribute("idnote", card.id);
     modalSaveButton.removeEventListener("click", newNote);
-    function modalSaveButtonFunction() {
-        editModalSave(modalInputTitle, modalTextArea, card);
-    }
+    modalSaveButton.addEventListener("click", editNoteSaveButtonFunction);
 }
-function editModalSave(modalInputTitle, modalTextArea, card) {
+function editNoteSaveButtonFunction(e) {
+    const newTitle = document.querySelector("#note-title").value;
+    const newDescription = document.querySelector("#note-description").value;
     const index = userInfos.notes.findIndex((note) => {
-        return note.title === card.querySelector("h5").textContent;
+        return note.id == e.target.getAttribute("idnote");
     });
-    userInfos.notes[index].title = modalInputTitle.value;
-    userInfos.notes[index].description = modalTextArea.value;
+    userInfos.notes[index].title = newTitle;
+    userInfos.notes[index].description = newDescription;
     localStorage.setItem(userID, JSON.stringify(userInfos));
-    location.reload();
+    sec.innerHTML = "";
+    loadNotesFromStorage();
+    hideModal();
 }
-export { loadNotesFromStorage, newNote, editContent };
+function hideModal() {
+    modalSaveButton.setAttribute("data-bs-dismiss", "modal");
+    modalSaveButton.removeEventListener("click", editNoteSaveButtonFunction);
+    modalSaveButton.click();
+    modalSaveButton.removeAttribute("data-bs-dismiss");
+}
+export { loadNotesFromStorage, newNote, editNote, editNoteSaveButtonFunction };

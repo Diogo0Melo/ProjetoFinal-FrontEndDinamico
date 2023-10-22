@@ -1,10 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import {
     getFirestore,
-    collection,
     getDoc,
-    query,
-    where,
     setDoc,
     updateDoc,
     doc,
@@ -44,8 +41,12 @@ async function addUserToDB(user, username) {
         uid: user.uid,
         username,
         notes: [],
+        noteID: 1,
     });
-    localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
+    localStorage.setItem(
+        user.uid,
+        JSON.stringify({ username, notes: [], noteID: 1 })
+    );
 }
 async function getInfosFromDB(userID) {
     const userRef = doc(db, "users", userID);
