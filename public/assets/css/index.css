@@ -1,9 +1,7 @@
 .card {
     background-color: #fcfcfc;
-    max-height: 335.8px;
-    min-height: 335.8px;
-    max-width: 302px;
-    min-width: 302px;
+    height: 330px;
+    width: 23.3%;
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;

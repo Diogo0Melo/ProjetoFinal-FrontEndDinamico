@@ -58,6 +58,7 @@ async function updateUserInDB(userID, userInfos) {
     await updateDoc(userRef, {
         notes: userInfos.notes,
         uid: userID,
+        noteID: userInfos.noteID,
     });
 }
 export { getInfosFromDB, updateUserInDB };

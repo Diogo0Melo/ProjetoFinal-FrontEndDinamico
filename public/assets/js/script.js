@@ -6,16 +6,17 @@ import {
 } from "./notes-func.js";
 
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
-const userInfos = JSON.parse(localStorage.getItem(userID));
 
 function createFirstNoteIconOrNoteContainer() {
+    const userInfos = JSON.parse(localStorage.getItem(userID));
     const icon = document.querySelector(".iconizao");
-    if (userInfos?.notes.length > 0) {
-        const sec = document.getElementById("police");
-        sec.removeAttribute("hidden");
-        icon.setAttribute("hidden", "");
-        return;
+    if (userInfos?.notes.length == 0) {
+        return false;
     }
+    const sec = document.getElementById("police");
+    sec.removeAttribute("hidden");
+    icon.setAttribute("hidden", "");
+    return true;
 }
 function logout(event) {
     event.preventDefault();
@@ -38,3 +39,5 @@ window.onload = async () => {
     createFirstNoteIconOrNoteContainer();
     await loadNotesFromStorage();
 };
+
+export { createFirstNoteIconOrNoteContainer };
