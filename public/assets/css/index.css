@@ -1,9 +1,7 @@
 .card {
     background-color: #fcfcfc;
-    max-height: 335.8px;
-    min-height: 335.8px;
-    max-width: 302px;
-    min-width: 302px;
+    height: 345px;
+    width: 23.3%;
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;
@@ -65,11 +63,11 @@
     align-items: center;
     font-size: 100px;
     color: gray;
-    height: calc(100vh - 58px);
+    height: calc(100vh - 140px);
 }
 .iconizao > span {
     font-size: 20px;
-    color: black;
+    color: rgba(0, 0, 0, 0.856);
     font-weight: 800;
     position: relative;
     top: -20px;
@@ -86,11 +84,34 @@
 header {
     background-color: #282409;
 }
-@media screen and (max-width: 720px) {
+#search-note {
+    width: 15%;
+}
+
+#new-note {
+    position: fixed;
+    right: 40px;
+    bottom: 20px;
+    font-size: 80px;
+    color: #282409;
+}
+@media screen and (max-width: 1000px) {
     #police {
         justify-content: center;
     }
     .card {
-        width: 90%;
+        width: 92%;
+    }
+    #logout {
+        width: 100%;
+        margin: 16px 0;
+    }
+    #search-note {
+        margin: 16px;
+        width: 100%;
+    }
+    #sync-notes {
+        margin-bottom: 8px;
+        width: 100%;
     }
 }

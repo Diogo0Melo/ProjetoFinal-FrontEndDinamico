@@ -1,10 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import {
     getFirestore,
-    collection,
     getDoc,
-    query,
-    where,
     setDoc,
     updateDoc,
     doc,
@@ -40,12 +37,15 @@ async function addUserToDB(user, username) {
     const userRef = doc(db, "users", user.uid);
     const userData = await getDoc(userRef);
     if (userData.exists()) return;
-    await setDoc(doc(db, "users", user.uid), {
+    const userTemplate = {
         uid: user.uid,
         username,
         notes: [],
-    });
-    localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
+        noteID: 1,
+        syncTime: Date.now() + 1000 * 60 * 8,
+    };
+    await setDoc(doc(db, "users", user.uid), userTemplate);
+    localStorage.setItem(user.uid, JSON.stringify(userTemplate));
 }
 async function getInfosFromDB(userID) {
     const userRef = doc(db, "users", userID);
@@ -57,6 +57,8 @@ async function updateUserInDB(userID, userInfos) {
     await updateDoc(userRef, {
         notes: userInfos.notes,
         uid: userID,
+        noteID: userInfos.noteID,
+        syncTime: userInfos.syncTime,
     });
 }
 export { getInfosFromDB, updateUserInDB };

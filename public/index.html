@@ -8,6 +8,10 @@
             href="./assets/img/favicon.ico"
             type="image/x-icon"
         />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        />
         <link rel="stylesheet" href="./assets/css/global-style.css" />
         <link rel="stylesheet" href="./assets/css/index.css" />
         <link rel="stylesheet" href="./assets/css/timer.css" />
@@ -27,7 +31,7 @@
         <header class="p-3 backg">
             <div class="container">
                 <div
-                    class="d-flex flex-wrap align-items-center justify-content-space-evenly justify-content-lg-start"
+                    class="d-flex align-items-center justify-content-space-evenly flex-lg-row flex-column"
                 >
                     <a
                         href="./"
@@ -38,53 +42,39 @@
                             alt="Logo de Chicara"
                             class="logo"
                         />
+                        <h1 class="ms-2 fs-4 mt-1">Anota Ações</h1>
                     </a>
 
-                    <ul
-                        class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
-                    >
-                        <li>
-                            <a
-                                class="nav-link text-white cp"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                                >Nova Nota</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="nav-link px-3 text-white cp"
-                                id="logout"
-                                >Sair</a
-                            >
-                        </li>
-                    </ul>
+                    <button class="btn btn-danger ms-2" id="logout">
+                        Sair
+                    </button>
+
                     <div>
-                        <h1 id="welcome-message" class="text-white">
+                        <h2 id="welcome-message" class="text-white">
                             Bem Vindo
                             <span id="userWelcomeMSG">Jogador Da Silva</span>
-                        </h1>
+                        </h2>
                     </div>
-                    <form
-                        class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3"
-                        role="search"
-                    >
-                        <input
-                            type="search"
-                            class="form-control form-control-dark backg fw"
-                            placeholder="Pesquisar..."
-                            aria-label="Search"
-                        />
-                    </form>
 
-                    <div class="text-end">
-                        <button
-                            type="button"
-                            class="btn btn-outline-light me-2"
-                        >
-                            Procurar
-                        </button>
-                    </div>
+                    <input
+                        type="search"
+                        class="mb-3 mb-lg-0 me-lg-3 form-control form-control-dark"
+                        placeholder="Pesquisar..."
+                        aria-label="Search"
+                        id="search-note"
+                        disabled
+                    />
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-light"
+                        id="sync-notes"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#sync-notes-modal"
+                    >
+                        Sincronizar
+                    </button>
                 </div>
             </div>
         </header>
@@ -95,12 +85,13 @@
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     class="bi cp bi-clipboard-plus"
+                    i-tag
                 ></i>
                 <span
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     class="cp"
-                    >Nova tarefa</span
+                    >Nova Nota</span
                 >
             </div>
 
@@ -146,15 +137,23 @@
                                         >Descrição:</label
                                     >
                                     <textarea
-                                        rows="9"
+                                        rows="6"
                                         class="form-control"
                                         id="note-description"
                                         maxlength="100"
                                     ></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="hora-alvo">Hora Alvo (HH:MM):</label>
-                                    <input type="text" id="hora-alvo" class="form-control" value="Coming Soon... Aguarde possiveis erros com mais reloads" disabled>
+                                    <label for="hora-alvo"
+                                        >Hora Alvo (HH:MM):</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="hora-alvo"
+                                        class="form-control"
+                                        value="Coming Soon..."
+                                        disabled
+                                    />
                                 </div>
                             </form>
                         </div>
@@ -172,6 +171,68 @@
                                 class="btn btn-primary"
                             >
                                 Salvar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="modal fade"
+                id="sync-notes-modal"
+                tabindex="-1"
+                aria-labelledby="sync-notes-modal"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="sync-notes-modal">
+                                Sincronizar Notas
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Aviso</h4>
+                            <p>
+                                Os botões serão liberados quando você puder
+                                fazer a proxima sincronização
+                            </p>
+                            <h5>Enviar Notas</h5>
+                            <p>
+                                Ao enviar suas notas para a nuvem elas serão
+                                sobrescritas com as notas do dispositivo atual
+                            </p>
+                            <h5>Puxar Notas</h5>
+                            <p>
+                                Ao puxar suas notas da nuvem elas serão
+                                sobrescritas com as notas enviadas do seu ultimo
+                                dispositivo
+                            </p>
+                        </div>
+                        <div class="modal-footer justify-content-around">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                id="send-notes"
+                                disabled
+                            >
+                                Enviar Notas para Nuvem
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                id="pull-notes"
+                                disabled
+                            >
+                                Puxar Notas da Nuvem
                             </button>
                         </div>
                     </div>
@@ -201,26 +262,32 @@
                 </li>
             </ul>
             <p class="text-center text-body-secondary">© 2023 Anota Ações</p>
-            <div class="timer">
-                <div>
-                    <span id="hora">00</span>
-                    <span class="tempo">Horas</span>
-                </div>
-                <div>
-                    <span id="minute">00</span>
-                    <span class="tempo">Minutos</span>
-                </div>
-                <div>
-                    <span id="second">00</span>
-                    <span class="tempo">Segundos</span>
-                </div>
-            </div>
         </footer>
 
-  
+        <i
+            class="bi bi-plus-circle-fill cp"
+            i-tag
+            id="new-note"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            hidden
+        ></i>
 
+        <!-- <div class="timer">
+            <div>
+                <span id="hora">00</span>
+                <span class="tempo">Horas</span>
+            </div>
+            <div>
+                <span id="minute">00</span>
+                <span class="tempo">Minutos</span>
+            </div>
+            <div>
+                <span id="second">00</span>
+                <span class="tempo">Segundos</span>
+            </div>
+        </div> -->
 
-</html>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

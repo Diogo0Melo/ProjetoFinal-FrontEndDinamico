@@ -1,18 +1,19 @@
 import { getInfosFromDB, updateUserInDB } from "./firebase.js";
+import { createFirstNoteIconOrNoteContainer } from "./script.js";
 
 const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
-let userInfos = JSON.parse(localStorage.getItem(userID));
-async function loadNotesFromStorage() {
-    if (!userInfos) {
+const userInfos = JSON.parse(localStorage.getItem(userID));
+async function loadNotesFromStorage(forceRequest = false) {
+    if (!userInfos || forceRequest) {
         await getInfosFromDB(userID);
-        userInfos = JSON.parse(localStorage.getItem(userID));
         location.reload();
+        return;
     }
     userInfos.notes.forEach((note) => {
         sec.innerHTML += `
             <div class="card cp">
-                <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <div class="card-body" id="${note.id}" data-bs-toggle="modal"data-bs-target="#exampleModal">
                     <h5 class="card-title">${note.title}</h5>
                     <p class="card-text">${note.description}</p>
                     <div class="card-footer"></div>
@@ -21,7 +22,10 @@ async function loadNotesFromStorage() {
                 </div>
             </div> `;
     });
-    const cards = document.querySelectorAll("div.card.cp");
+    addButtonsToCards();
+}
+function addButtonsToCards() {
+    const cards = Array.from(document.querySelectorAll("div.card.cp"));
     cards.forEach((card) => {
         const btnConcluir = document.createElement("button");
         const btnExcluir = document.createElement("button");
@@ -35,33 +39,35 @@ async function loadNotesFromStorage() {
         btnConcluir.addEventListener("click", completedNote);
         btnExcluir.addEventListener("click", removeNote);
     });
-    userInfos = JSON.parse(localStorage.getItem(userID));
-    let i = 0;
     userInfos.notes.forEach((note) => {
-        if (note.completed) {
-            const btn = cards[i].querySelector("button");
-            btn.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
-            btn.classList.add("tarefa-concluida");
+        if (!note.completed) {
+            return;
         }
-        i++;
+        const cardID = cards.find((card) => {
+            return (
+                card.querySelector(".card-body").getAttribute("id") == note.id
+            );
+        });
+        const btn = cardID.querySelector("button");
+        btn.innerHTML = `Concluída <i class="bi bi-check-circle-fill"></i>`;
+        btn.classList.add("tarefa-concluida");
     });
 }
 
 async function newNote() {
+    const id = userInfos.noteID++;
     const title = document.querySelector("#note-title").value;
     const description = document.querySelector("#note-description").value;
-    if (!userInfos) {
-        await getInfosFromDB(userID);
-        userInfos = JSON.parse(localStorage.getItem(userID));
-    }
     const note = {
+        id,
         title,
         description,
     };
     userInfos.notes.push(note);
     localStorage.setItem(userID, JSON.stringify(userInfos));
     await updateUserInDB(userID, userInfos);
-    location.reload();
+    reloadNotes();
+    hideModal();
 }
 function completedNote(event) {
     event.target.classList.toggle("tarefa-concluida");
@@ -90,39 +96,78 @@ function removeNote(event) {
     });
     userInfos.notes.splice(index, 1);
     localStorage.setItem(userID, JSON.stringify(userInfos));
-    card.remove();
+    reloadNotes();
 }
-
-const exampleModal = document.getElementById("exampleModal");
-const modalSaveButton = exampleModal.querySelector("#add-note");
-
-function editContent(event) {
+const modalSaveButton = document.querySelector("#add-note");
+function editNote(event) {
     const card = event.relatedTarget;
-    const modalTitle = exampleModal.querySelector(".modal-title");
-    const modalInputTitle = exampleModal.querySelector(".modal-body input");
-    const modalTextArea = exampleModal.querySelector(".modal-body textarea");
-    if (card instanceof HTMLAnchorElement) {
-        modalTitle.textContent = "Criar Nova Nota";
+    const modalTitle = document.querySelector("#exampleModalLabel");
+    if (
+        card instanceof HTMLAnchorElement ||
+        card instanceof HTMLSpanElement ||
+        card.hasAttribute("i-tag")
+    ) {
+        modalTitle.innerHTML = "Criar Nova Nota";
+        modalSaveButton.addEventListener("click", newNote);
         return;
     }
-    const title = card.querySelector(".card-title").textContent;
-    const description = card.querySelector(".card-text").textContent;
-    modalTitle.textContent = "Editar Nota";
-    modalInputTitle.value = title;
-    modalTextArea.value = description;
-    modalSaveButton.addEventListener("click", modalSaveButtonFunction);
+    const title = card.querySelector("h5").textContent;
+    const description = card.querySelector("p").textContent;
+
+    modalTitle.innerHTML = "Editar Nota";
+    document.querySelector("#note-title").value = title;
+    document.querySelector("#note-description").value = description;
+    modalSaveButton.setAttribute("idnote", card.id);
     modalSaveButton.removeEventListener("click", newNote);
-    function modalSaveButtonFunction() {
-        editModalSave(modalInputTitle, modalTextArea, card);
-    }
+    modalSaveButton.addEventListener("click", editNoteSaveButtonFunction);
 }
-function editModalSave(modalInputTitle, modalTextArea, card) {
+function editNoteSaveButtonFunction(e) {
+    const newTitle = document.querySelector("#note-title").value;
+    const newDescription = document.querySelector("#note-description").value;
     const index = userInfos.notes.findIndex((note) => {
-        return note.title === card.querySelector("h5").textContent;
+        return note.id == e.target.getAttribute("idnote");
     });
-    userInfos.notes[index].title = modalInputTitle.value;
-    userInfos.notes[index].description = modalTextArea.value;
+    userInfos.notes[index].title = newTitle;
+    userInfos.notes[index].description = newDescription;
     localStorage.setItem(userID, JSON.stringify(userInfos));
-    location.reload();
+    reloadNotes();
+    hideModal();
 }
-export { loadNotesFromStorage, newNote, editContent };
+function hideModal() {
+    modalSaveButton.setAttribute("data-bs-dismiss", "modal");
+    modalSaveButton.removeEventListener("click", editNoteSaveButtonFunction);
+    modalSaveButton.removeEventListener("click", newNote);
+    modalSaveButton.click();
+    modalSaveButton.removeAttribute("data-bs-dismiss");
+}
+async function reloadNotes(forceRequest = false) {
+    sec.innerHTML = "";
+    await loadNotesFromStorage(forceRequest);
+    createFirstNoteIconOrNoteContainer();
+}
+
+async function syncNotes(e) {
+    if (userInfos.syncTime > Date.now()) {
+        return;
+    }
+    userInfos.syncTime = Date.now() + 1000 * 60 * 8;
+    localStorage.setItem(userID, JSON.stringify(userInfos));
+    if (e.target.id == "send-notes") {
+        await updateUserInDB(userID, userInfos);
+        return;
+    }
+    if (e.target.id != "pull-notes") {
+        return;
+    }
+    await getInfosFromDB(userID);
+    await reloadNotes(true);
+    return;
+}
+
+export {
+    loadNotesFromStorage,
+    newNote,
+    editNote,
+    editNoteSaveButtonFunction,
+    syncNotes,
+};
