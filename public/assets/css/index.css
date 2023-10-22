@@ -84,6 +84,10 @@
 header {
     background-color: #282409;
 }
+#search-note {
+    width: 15%;
+}
+
 #new-note {
     position: fixed;
     right: 40px;
@@ -91,11 +95,23 @@ header {
     font-size: 80px;
     color: #282409;
 }
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 1000px) {
     #police {
         justify-content: center;
     }
     .card {
-        width: 90%;
+        width: 92%;
+    }
+    #logout {
+        width: 100%;
+        margin: 16px 0;
+    }
+    #search-note {
+        margin: 16px;
+        width: 100%;
+    }
+    #sync-notes {
+        margin-bottom: 8px;
+        width: 100%;
     }
 }
