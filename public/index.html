@@ -62,12 +62,16 @@
                         placeholder="Pesquisar..."
                         aria-label="Search"
                         id="search-note"
+                        disabled
                     />
 
                     <button
                         type="button"
                         class="btn btn-outline-light"
                         id="sync-notes"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#sync-notes-modal"
                     >
                         Sincronizar
                     </button>
@@ -147,7 +151,7 @@
                                         type="text"
                                         id="hora-alvo"
                                         class="form-control"
-                                        value="Coming Soon... Aguarde possiveis erros com mais reloads"
+                                        value="Coming Soon..."
                                         disabled
                                     />
                                 </div>
@@ -167,6 +171,68 @@
                                 class="btn btn-primary"
                             >
                                 Salvar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="modal fade"
+                id="sync-notes-modal"
+                tabindex="-1"
+                aria-labelledby="sync-notes-modal"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="sync-notes-modal">
+                                Sincronizar Notas
+                            </h1>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Aviso</h4>
+                            <p>
+                                Os botões serão liberados quando você puder
+                                fazer a proxima sincronização
+                            </p>
+                            <h5>Enviar Notas</h5>
+                            <p>
+                                Ao enviar suas notas para a nuvem elas serão
+                                sobrescritas com as notas do dispositivo atual
+                            </p>
+                            <h5>Puxar Notas</h5>
+                            <p>
+                                Ao puxar suas notas da nuvem elas serão
+                                sobrescritas com as notas enviadas do seu ultimo
+                                dispositivo
+                            </p>
+                        </div>
+                        <div class="modal-footer justify-content-around">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                id="send-notes"
+                                disabled
+                            >
+                                Enviar Notas para Nuvem
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-dismiss="modal"
+                                id="pull-notes"
+                                disabled
+                            >
+                                Puxar Notas da Nuvem
                             </button>
                         </div>
                     </div>

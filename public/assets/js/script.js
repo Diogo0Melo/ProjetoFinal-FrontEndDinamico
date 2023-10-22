@@ -3,12 +3,14 @@ import {
     newNote,
     editNote,
     editNoteSaveButtonFunction,
+    syncNotes,
 } from "./notes-func.js";
 
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
+let userInfos = JSON.parse(localStorage.getItem(userID));
 
 function createFirstNoteIconOrNoteContainer() {
-    const userInfos = JSON.parse(localStorage.getItem(userID));
+    userInfos = JSON.parse(localStorage.getItem(userID));
     const icon = document.querySelector(".iconizao");
     const newNoteIcon = document.querySelector("#new-note");
     const sec = document.getElementById("police");
@@ -34,6 +36,23 @@ window.onload = async () => {
     const modal = document.querySelector("#exampleModal");
     const btnAddNote = document.querySelector("#add-note");
     const btnLogout = document.querySelector("#logout");
+    const syncSendButton = document.querySelector("#send-notes");
+    const syncPullButton = document.querySelector("#pull-notes");
+    syncPullButton.addEventListener("click", syncNotes);
+    syncSendButton.addEventListener("click", syncNotes);
+    setInterval(() => {
+        userInfos = JSON.parse(localStorage.getItem(userID));
+
+        if (userInfos.syncTime > Date.now()) {
+            syncSendButton.setAttribute("disabled", "");
+            syncPullButton.setAttribute("disabled", "");
+
+            return;
+        }
+
+        syncPullButton.removeAttribute("disabled");
+        syncSendButton.removeAttribute("disabled");
+    }, 1000 * 60);
     btnAddNote.addEventListener("click", newNote);
     btnLogout.addEventListener("click", logout);
     modal.addEventListener("show.bs.modal", editNote);

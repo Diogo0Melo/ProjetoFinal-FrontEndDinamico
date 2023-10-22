@@ -4,8 +4,8 @@ import { createFirstNoteIconOrNoteContainer } from "./script.js";
 const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 const userInfos = JSON.parse(localStorage.getItem(userID));
-async function loadNotesFromStorage() {
-    if (!userInfos) {
+async function loadNotesFromStorage(forceRequest = false) {
+    if (!userInfos || forceRequest) {
         await getInfosFromDB(userID);
         location.reload();
         return;
@@ -140,9 +140,34 @@ function hideModal() {
     modalSaveButton.click();
     modalSaveButton.removeAttribute("data-bs-dismiss");
 }
-async function reloadNotes() {
+async function reloadNotes(forceRequest = false) {
     sec.innerHTML = "";
-    loadNotesFromStorage();
+    await loadNotesFromStorage(forceRequest);
     createFirstNoteIconOrNoteContainer();
 }
-export { loadNotesFromStorage, newNote, editNote, editNoteSaveButtonFunction };
+
+async function syncNotes(e) {
+    if (userInfos.syncTime > Date.now()) {
+        return;
+    }
+    userInfos.syncTime = Date.now() + 1000 * 60 * 8;
+    localStorage.setItem(userID, JSON.stringify(userInfos));
+    if (e.target.id == "send-notes") {
+        await updateUserInDB(userID, userInfos);
+        return;
+    }
+    if (e.target.id != "pull-notes") {
+        return;
+    }
+    await getInfosFromDB(userID);
+    await reloadNotes(true);
+    return;
+}
+
+export {
+    loadNotesFromStorage,
+    newNote,
+    editNote,
+    editNoteSaveButtonFunction,
+    syncNotes,
+};
