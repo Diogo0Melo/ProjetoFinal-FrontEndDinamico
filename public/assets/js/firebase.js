@@ -31,6 +31,7 @@ const indexPageRoute = window.location.href.includes("web.app")
 const db = getFirestore(app);
 
 async function addUserToDB(user, username) {
+    user.displayName = username;
     sessionStorage.setItem("@user", JSON.stringify(user));
     sessionStorage.setItem("@visited", "true");
     if (localStorage.getItem(user.uid)) return;
@@ -48,9 +49,13 @@ async function addUserToDB(user, username) {
     await setDoc(doc(db, "users", user.uid), userTemplate);
     localStorage.setItem(user.uid, JSON.stringify(userTemplate));
 }
-async function getInfosFromDB(userID) {
+async function getInfosFromDB(userID, userInfos) {
     const userRef = doc(db, "users", userID);
     const user = await getDoc(userRef);
+    if (!user.exists()) {
+        await addUserToDB(userInfos, userInfos.displayName);
+        return;
+    }
     localStorage.setItem(userID, JSON.stringify(user.data()));
 }
 async function updateUserInDB(userID, userInfos) {

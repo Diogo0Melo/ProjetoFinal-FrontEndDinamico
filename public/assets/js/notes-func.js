@@ -4,13 +4,15 @@ import { createFirstNoteIconOrNoteContainer } from "./script.js";
 const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
 const userInfos = JSON.parse(localStorage.getItem(userID));
-async function loadNotesFromStorage(forceRequest = false) {
+async function loadNotesFromStorage(forceRequest) {
     if (!userInfos || forceRequest) {
-        await getInfosFromDB(userID);
+        forceRequest ? localStorage.removeItem(userID) : null;
+        const user = JSON.parse(sessionStorage.getItem("@user"));
+        await getInfosFromDB(userID, user);
         location.reload();
         return;
     }
-    userInfos.notes.forEach((note) => {
+    userInfos.notes?.forEach((note) => {
         sec.innerHTML += `
             <div class="card cp">
                 <div class="card-body" id="${note.id}" data-bs-toggle="modal"data-bs-target="#exampleModal">
@@ -39,7 +41,7 @@ function addButtonsToCards() {
         btnConcluir.addEventListener("click", completedNote);
         btnExcluir.addEventListener("click", removeNote);
     });
-    userInfos.notes.forEach((note) => {
+    userInfos.notes?.forEach((note) => {
         if (!note.completed) {
             return;
         }
