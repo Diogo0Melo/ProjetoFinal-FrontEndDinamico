@@ -4,6 +4,7 @@ import {
     editNote,
     editNoteSaveButtonFunction,
     syncNotes,
+    searchNote,
 } from "./notes-func.js";
 
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
@@ -33,7 +34,16 @@ function logout(event) {
     location.reload();
 }
 window.onresize = () => {
-    location.reload();
+    const screen = window.matchMedia("(max-width: 1024px)");
+    const mobileHeader = document.querySelector("#mobile-header");
+    const desktopHeader = document.querySelector("#desktop-header");
+    if (screen.matches) {
+        mobileHeader.removeAttribute("hidden");
+        desktopHeader.setAttribute("hidden", "");
+    } else {
+        mobileHeader.setAttribute("hidden", "");
+        desktopHeader.removeAttribute("hidden");
+    }
 };
 window.onload = async () => {
     userInfos = JSON.parse(localStorage.getItem(userID));
@@ -43,17 +53,13 @@ window.onload = async () => {
     const syncSendButton = document.querySelector("#send-notes");
     const syncPullButton = document.querySelector("#pull-notes");
     const userWelcomeMSG = document.querySelectorAll("#userWelcomeMSG");
-    const mobileHeader = document.querySelector("#mobile-header");
-    const desktopHeader = document.querySelector("#desktop-header");
-    const screen = window.matchMedia("(max-width: 1024px)");
+    const inputSearch = document.querySelector("#search-note");
     const forceDataUpdate = userInfos.forceDataUpdate == undefined;
-    let btnLogout = ButtonsLogout[0];
-    if (screen.matches) {
-        btnLogout = ButtonsLogout[1];
-        userWelcomeMSG[1].textContent = userInfos?.username;
-        mobileHeader.removeAttribute("hidden");
-        desktopHeader.setAttribute("hidden", "");
-    } else userWelcomeMSG[0].textContent = userInfos?.username;
+    ButtonsLogout.forEach((btn) => {
+        btn.addEventListener("click", logout);
+    });
+    userWelcomeMSG[1].textContent = userInfos?.username;
+    userWelcomeMSG[0].textContent = userInfos?.username;
     syncPullButton.addEventListener("click", syncNotes);
     syncSendButton.addEventListener("click", syncNotes);
     setInterval(() => {
@@ -70,13 +76,13 @@ window.onload = async () => {
         syncSendButton.removeAttribute("disabled");
     }, 1000 * 60);
     btnAddNote.addEventListener("click", newNote);
-    btnLogout.addEventListener("click", logout);
     modal.addEventListener("show.bs.modal", editNote);
     modal.addEventListener("hide.bs.modal", () => {
         btnAddNote.removeEventListener("click", editNoteSaveButtonFunction);
         modal.querySelector("#note-title").value = "";
         modal.querySelector("#note-description").value = "";
     });
+    inputSearch.addEventListener("input", searchNote);
     createFirstNoteIconOrNoteContainer();
 
     await loadNotesFromStorage(forceDataUpdate);

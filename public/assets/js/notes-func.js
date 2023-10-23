@@ -165,6 +165,21 @@ async function syncNotes(e) {
     await reloadNotes(true);
     return;
 }
+function searchNote() {
+    const search = document.querySelector("#search-note").value;
+    const cards = Array.from(document.querySelectorAll("div.card.cp"));
+    cards.forEach((card) => {
+        const title = card.querySelector("h5").textContent.toLowerCase();
+        const description = card.querySelector("p").textContent.toLowerCase();
+        if (title.includes(search) || description.includes(search)) {
+            card.removeAttribute("hidden");
+        } else if (search == "") {
+            card.removeAttribute("hidden");
+        } else {
+            card.setAttribute("hidden", "");
+        }
+    });
+}
 
 export {
     loadNotesFromStorage,
@@ -172,4 +187,5 @@ export {
     editNote,
     editNoteSaveButtonFunction,
     syncNotes,
+    searchNote,
 };
