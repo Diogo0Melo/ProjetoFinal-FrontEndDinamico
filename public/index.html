@@ -19,12 +19,18 @@
             if (sessionStorage.getItem("@visited") == null) {
                 window.location.href = "./assets/html/sign-up.html";
             }
+
             const uid = JSON.parse(sessionStorage.getItem("@user")).uid;
             const user = JSON.parse(localStorage.getItem(uid));
             const userWelcomeMSG = document.querySelectorAll("#userWelcomeMSG");
             const screen = window.matchMedia("(orientation: portrait)");
             const mobileHeader = document.querySelector("#mobile-header");
             const desktopHeader = document.querySelector("#desktop-header");
+            const forceDataUpdate = localStorage.getItem("forceDataUpdate");
+            if (user.forceDataUpdate == undefined) {
+                localStorage.removeItem(uid);
+                location.reload();
+            }
             window.onresize = () => {
                 location.reload();
             };

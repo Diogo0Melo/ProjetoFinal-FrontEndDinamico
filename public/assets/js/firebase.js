@@ -43,6 +43,7 @@ async function addUserToDB(user, username) {
         notes: [],
         noteID: 1,
         syncTime: Date.now() + 1000 * 60 * 8,
+        forceDataUpdate: false,
     };
     await setDoc(doc(db, "users", user.uid), userTemplate);
     localStorage.setItem(user.uid, JSON.stringify(userTemplate));
