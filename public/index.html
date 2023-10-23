@@ -21,15 +21,25 @@
             }
             const uid = JSON.parse(sessionStorage.getItem("@user")).uid;
             const user = JSON.parse(localStorage.getItem(uid));
-            const userWelcomeMSG = document.querySelector("#userWelcomeMSG");
-            userWelcomeMSG.textContent = user?.username;
+            const userWelcomeMSG = document.querySelectorAll("#userWelcomeMSG");
+            const screen = window.matchMedia("(orientation: portrait)");
+            const mobileHeader = document.querySelector("#mobile-header");
+            const desktopHeader = document.querySelector("#desktop-header");
+            window.onresize = () => {
+                location.reload();
+            };
+            if (screen.matches) {
+                userWelcomeMSG[1].textContent = user?.username;
+                mobileHeader.removeAttribute("hidden");
+                desktopHeader.setAttribute("hidden", "");
+            } else userWelcomeMSG[0].textContent = user?.username;
         </script>
         <title>Anota Ações</title>
     </head>
 
     <body>
-        <header class="p-3 backg">
-            <div class="container">
+        <header class="p-3">
+            <div class="container" id="desktop-header">
                 <div
                     class="d-flex align-items-center justify-content-space-evenly flex-lg-row flex-column"
                 >
@@ -50,8 +60,8 @@
                     </button>
 
                     <div>
-                        <h2 id="welcome-message" class="text-white">
-                            Bem Vindo
+                        <h2 id="welcome-message" class="mb-0 text-white">
+                            Bem Vindo(a)
                             <span id="userWelcomeMSG">Jogador Da Silva</span>
                         </h2>
                     </div>
@@ -77,6 +87,67 @@
                     </button>
                 </div>
             </div>
+            <div
+                class="collapse"
+                id="navbarToggleExternalContent"
+                data-bs-theme="dark"
+            >
+                <div class="bg-dark p-4 d-flex flex-column align-items-center">
+                    <div>
+                        <h2 id="welcome-message" class="text-white">
+                            Bem Vindo(a)
+                            <span id="userWelcomeMSG">Jogador Da Silva</span>
+                        </h2>
+                    </div>
+                    <button class="btn btn-danger" id="logout">Sair</button>
+
+                    <input
+                        type="search"
+                        class="form-control form-control-dark"
+                        placeholder="Pesquisar..."
+                        aria-label="Search"
+                        id="search-note"
+                        disabled
+                    />
+
+                    <button
+                        type="button"
+                        class="btn btn-outline-light"
+                        id="sync-notes"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#sync-notes-modal"
+                    >
+                        Sincronizar
+                    </button>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark" id="mobile-header" hidden>
+                <div class="container-fluid">
+                    <a
+                        href="./"
+                        class="d-flex align-items-center text-white text-decoration-none"
+                    >
+                        <img
+                            src="./assets/img/design-sem-nome.svg"
+                            alt="Logo de Chicara"
+                            class="logo"
+                        />
+                        <h1 class="ms-2 fs-3 mb-0">Anota Ações</h1>
+                    </a>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarToggleExternalContent"
+                        aria-controls="navbarToggleExternalContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+            </nav>
         </header>
         <main class="container mt-4">
             <section id="police" hidden></section>

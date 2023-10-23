@@ -35,9 +35,15 @@ function logout(event) {
 window.onload = async () => {
     const modal = document.querySelector("#exampleModal");
     const btnAddNote = document.querySelector("#add-note");
-    const btnLogout = document.querySelector("#logout");
+    const ButtonsLogout = document.querySelectorAll("#logout");
     const syncSendButton = document.querySelector("#send-notes");
     const syncPullButton = document.querySelector("#pull-notes");
+
+    let btnLogout = ButtonsLogout[0];
+    const screen = window.matchMedia("(orientation: portrait)");
+    if (screen.matches) {
+        btnLogout = ButtonsLogout[1];
+    }
     syncPullButton.addEventListener("click", syncNotes);
     syncSendButton.addEventListener("click", syncNotes);
     setInterval(() => {
