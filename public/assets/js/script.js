@@ -14,7 +14,7 @@ function createFirstNoteIconOrNoteContainer() {
     const icon = document.querySelector(".iconizao");
     const newNoteIcon = document.querySelector("#new-note");
     const sec = document.getElementById("police");
-    if (userInfos?.notes.length == 0) {
+    if (userInfos?.notes?.length == 0) {
         icon.removeAttribute("hidden");
         sec.setAttribute("hidden", "");
         newNoteIcon.setAttribute("hidden", "");
@@ -32,18 +32,28 @@ function logout(event) {
     sessionStorage.removeItem("@user");
     location.reload();
 }
+window.onresize = () => {
+    location.reload();
+};
 window.onload = async () => {
+    userInfos = JSON.parse(localStorage.getItem(userID));
     const modal = document.querySelector("#exampleModal");
     const btnAddNote = document.querySelector("#add-note");
     const ButtonsLogout = document.querySelectorAll("#logout");
     const syncSendButton = document.querySelector("#send-notes");
     const syncPullButton = document.querySelector("#pull-notes");
-
+    const userWelcomeMSG = document.querySelectorAll("#userWelcomeMSG");
+    const mobileHeader = document.querySelector("#mobile-header");
+    const desktopHeader = document.querySelector("#desktop-header");
+    const screen = window.matchMedia("(max-width: 1024px)");
+    const forceDataUpdate = userInfos.forceDataUpdate == undefined;
     let btnLogout = ButtonsLogout[0];
-    const screen = window.matchMedia("(orientation: portrait)");
     if (screen.matches) {
         btnLogout = ButtonsLogout[1];
-    }
+        userWelcomeMSG[1].textContent = userInfos?.username;
+        mobileHeader.removeAttribute("hidden");
+        desktopHeader.setAttribute("hidden", "");
+    } else userWelcomeMSG[0].textContent = userInfos?.username;
     syncPullButton.addEventListener("click", syncNotes);
     syncSendButton.addEventListener("click", syncNotes);
     setInterval(() => {
@@ -68,7 +78,8 @@ window.onload = async () => {
         modal.querySelector("#note-description").value = "";
     });
     createFirstNoteIconOrNoteContainer();
-    await loadNotesFromStorage();
+
+    await loadNotesFromStorage(forceDataUpdate);
 };
 
 export { createFirstNoteIconOrNoteContainer };
