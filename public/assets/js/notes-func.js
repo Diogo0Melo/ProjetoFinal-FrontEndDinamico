@@ -165,7 +165,7 @@ async function syncNotes(e) {
     await reloadNotes(true);
     return;
 }
-function searchNote() {
+function searchNotes() {
     const search = document.querySelector("#search-note").value;
     const cards = Array.from(document.querySelectorAll("div.card.cp"));
     cards.forEach((card) => {
@@ -187,5 +187,5 @@ export {
     editNote,
     editNoteSaveButtonFunction,
     syncNotes,
-    searchNote,
+    searchNotes,
 };

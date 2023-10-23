@@ -4,7 +4,7 @@ import {
     editNote,
     editNoteSaveButtonFunction,
     syncNotes,
-    searchNote,
+    searchNotes,
 } from "./notes-func.js";
 
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
@@ -33,7 +33,7 @@ function logout(event) {
     sessionStorage.removeItem("@user");
     location.reload();
 }
-window.onresize = () => {
+function headerSwitch() {
     const screen = window.matchMedia("(max-width: 1024px)");
     const mobileHeader = document.querySelector("#mobile-header");
     const desktopHeader = document.querySelector("#desktop-header");
@@ -44,7 +44,8 @@ window.onresize = () => {
         mobileHeader.setAttribute("hidden", "");
         desktopHeader.removeAttribute("hidden");
     }
-};
+}
+
 window.onload = async () => {
     userInfos = JSON.parse(localStorage.getItem(userID));
     const modal = document.querySelector("#exampleModal");
@@ -54,7 +55,9 @@ window.onload = async () => {
     const syncPullButton = document.querySelector("#pull-notes");
     const userWelcomeMSG = document.querySelectorAll("#userWelcomeMSG");
     const inputSearch = document.querySelector("#search-note");
-    const forceDataUpdate = userInfos.forceDataUpdate == undefined;
+    const forceDataUpdate = userInfos?.forceDataUpdate == undefined;
+
+    window.addEventListener("resize", headerSwitch);
     ButtonsLogout.forEach((btn) => {
         btn.addEventListener("click", logout);
     });
@@ -82,10 +85,10 @@ window.onload = async () => {
         modal.querySelector("#note-title").value = "";
         modal.querySelector("#note-description").value = "";
     });
-    inputSearch.addEventListener("input", searchNote);
-    createFirstNoteIconOrNoteContainer();
-
+    inputSearch.addEventListener("input", searchNotes);
+    headerSwitch();
     await loadNotesFromStorage(forceDataUpdate);
+    createFirstNoteIconOrNoteContainer();
 };
 
 export { createFirstNoteIconOrNoteContainer };
