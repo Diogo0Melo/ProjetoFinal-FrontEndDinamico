@@ -1,5 +1,5 @@
 import { getInfosFromDB, updateUserInDB } from "./firebase.js";
-import { createFirstNoteIconOrNoteContainer } from "./script.js";
+import { createFirstNoteIconOrNoteContainer, allowSync } from "./script.js";
 
 const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
@@ -154,6 +154,7 @@ async function syncNotes(e) {
     }
     userInfos.syncTime = Date.now() + 1000 * 60 * 8;
     localStorage.setItem(userID, JSON.stringify(userInfos));
+    allowSync();
     if (e.target.id == "send-notes") {
         await updateUserInDB(userID, userInfos);
         return;
@@ -165,6 +166,21 @@ async function syncNotes(e) {
     await reloadNotes(true);
     return;
 }
+function searchNotes() {
+    const search = document.querySelector("#search-note").value;
+    const cards = Array.from(document.querySelectorAll("div.card.cp"));
+    cards.forEach((card) => {
+        const title = card.querySelector("h5").textContent.toLowerCase();
+        const description = card.querySelector("p").textContent.toLowerCase();
+        if (title.includes(search) || description.includes(search)) {
+            card.removeAttribute("hidden");
+        } else if (search == "") {
+            card.removeAttribute("hidden");
+        } else {
+            card.setAttribute("hidden", "");
+        }
+    });
+}
 
 export {
     loadNotesFromStorage,
@@ -172,4 +188,5 @@ export {
     editNote,
     editNoteSaveButtonFunction,
     syncNotes,
+    searchNotes,
 };
