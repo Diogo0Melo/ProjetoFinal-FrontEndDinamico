@@ -1,5 +1,5 @@
 import { getInfosFromDB, updateUserInDB } from "./firebase.js";
-import { createFirstNoteIconOrNoteContainer } from "./script.js";
+import { createFirstNoteIconOrNoteContainer, allowSync } from "./script.js";
 
 const sec = document.getElementById("police");
 const userID = JSON.parse(sessionStorage.getItem("@user")).uid;
@@ -154,6 +154,7 @@ async function syncNotes(e) {
     }
     userInfos.syncTime = Date.now() + 1000 * 60 * 8;
     localStorage.setItem(userID, JSON.stringify(userInfos));
+    allowSync();
     if (e.target.id == "send-notes") {
         await updateUserInDB(userID, userInfos);
         return;
