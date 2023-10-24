@@ -101,6 +101,7 @@ header {
     }
     .card {
         width: 92%;
+        height: auto;
     }
     #logout {
         width: 100%;
