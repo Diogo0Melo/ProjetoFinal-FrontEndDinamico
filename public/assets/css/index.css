@@ -1,17 +1,19 @@
 .card {
-    background-color: #fcfcfc;
-    height: 345px;
-    width: 23.3%;
+    background-color: #f8f8f8;
+    min-height: 165px;
+    max-height: 335.8px;
+    width: 302px;
+
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;
     padding: 10px;
     box-shadow: 1px 1px 10px 5px #0000000f;
+    box-sizing: border-box;
 }
 #police {
     display: flex;
     flex-flow: row wrap;
-    height: 83vh;
     overflow: auto;
     box-shadow: 1px 1px 10px 8px #0000000f;
     border-radius: 12px;
@@ -20,7 +22,6 @@
     display: none;
 }
 .card-body {
-    margin: 8px;
     text-align: center;
 }
 .card-title {
@@ -32,13 +33,14 @@
 .card-text {
     font-weight: 400;
     font-size: 17px;
+    margin: 1px;
 }
 .card-footer {
     font-weight: 300;
     margin-top: 5px;
     text-align: center;
     font-size: 14px;
-    background-color: #fcfcfc;
+    background-color: #f8f8f8;
 }
 .btn-primary {
     width: 100%;
