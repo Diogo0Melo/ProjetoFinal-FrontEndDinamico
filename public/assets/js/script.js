@@ -39,13 +39,18 @@ function headerSwitch() {
     const screen = window.matchMedia("(max-width: 1024px)");
     const mobileHeader = document.querySelector("#mobile-header");
     const desktopHeader = document.querySelector("#desktop-header");
+    const mobileHeaderContent = document.querySelector(
+        "#navbarToggleExternalContent"
+    );
     if (screen.matches) {
         mobileHeader.removeAttribute("hidden");
         desktopHeader.setAttribute("hidden", "");
-    } else {
-        mobileHeader.setAttribute("hidden", "");
-        desktopHeader.removeAttribute("hidden");
+        mobileHeaderContent.removeAttribute("hidden");
+        return;
     }
+    mobileHeader.setAttribute("hidden", "");
+    desktopHeader.removeAttribute("hidden");
+    mobileHeaderContent.setAttribute("hidden", "");
 }
 function allowSync() {
     userInfos = JSON.parse(localStorage.getItem(userID));
