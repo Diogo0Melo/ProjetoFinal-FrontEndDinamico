@@ -1,10 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import {
     getFirestore,
-    collection,
     getDoc,
-    query,
-    where,
     setDoc,
     updateDoc,
     doc,
@@ -34,22 +31,31 @@ const indexPageRoute = window.location.href.includes("web.app")
 const db = getFirestore(app);
 
 async function addUserToDB(user, username) {
+    user.displayName = username;
     sessionStorage.setItem("@user", JSON.stringify(user));
     sessionStorage.setItem("@visited", "true");
     if (localStorage.getItem(user.uid)) return;
     const userRef = doc(db, "users", user.uid);
     const userData = await getDoc(userRef);
     if (userData.exists()) return;
-    await setDoc(doc(db, "users", user.uid), {
+    const userTemplate = {
         uid: user.uid,
         username,
         notes: [],
-    });
-    localStorage.setItem(user.uid, JSON.stringify({ username, notes: [] }));
+        noteID: 1,
+        syncTime: Date.now() + 1000 * 60 * 8,
+        forceDataUpdate: false,
+    };
+    await setDoc(doc(db, "users", user.uid), userTemplate);
+    localStorage.setItem(user.uid, JSON.stringify(userTemplate));
 }
-async function getInfosFromDB(userID) {
+async function getInfosFromDB(userID, userInfos) {
     const userRef = doc(db, "users", userID);
     const user = await getDoc(userRef);
+    if (!user.exists()) {
+        await addUserToDB(userInfos, userInfos.displayName);
+        return;
+    }
     localStorage.setItem(userID, JSON.stringify(user.data()));
 }
 async function updateUserInDB(userID, userInfos) {
@@ -57,6 +63,8 @@ async function updateUserInDB(userID, userInfos) {
     await updateDoc(userRef, {
         notes: userInfos.notes,
         uid: userID,
+        noteID: userInfos.noteID,
+        syncTime: userInfos.syncTime,
     });
 }
 export { getInfosFromDB, updateUserInDB };
