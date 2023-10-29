@@ -1,19 +1,19 @@
 .card {
-    background-color: #fcfcfc;
+    background-color: #f8f8f8;
+    min-height: 165px;
     max-height: 335.8px;
-    min-height: 335.8px;
-    max-width: 302px;
-    min-width: 302px;
+    width: 302px;
+
     margin: 10px;
     border: solid 1px #000000b1;
     border-radius: 7px;
     padding: 10px;
     box-shadow: 1px 1px 10px 5px #0000000f;
+    box-sizing: border-box;
 }
 #police {
     display: flex;
     flex-flow: row wrap;
-    height: 83vh;
     overflow: auto;
     box-shadow: 1px 1px 10px 8px #0000000f;
     border-radius: 12px;
@@ -22,7 +22,6 @@
     display: none;
 }
 .card-body {
-    margin: 8px;
     text-align: center;
 }
 .card-title {
@@ -34,13 +33,14 @@
 .card-text {
     font-weight: 400;
     font-size: 17px;
+    margin: 1px;
 }
 .card-footer {
     font-weight: 300;
     margin-top: 5px;
     text-align: center;
     font-size: 14px;
-    background-color: #fcfcfc;
+    background-color: #f8f8f8;
 }
 .btn-primary {
     width: 100%;
@@ -65,11 +65,11 @@
     align-items: center;
     font-size: 100px;
     color: gray;
-    height: calc(100vh - 58px);
+    height: calc(100vh - 140px);
 }
 .iconizao > span {
     font-size: 20px;
-    color: black;
+    color: rgba(0, 0, 0, 0.856);
     font-weight: 800;
     position: relative;
     top: -20px;
@@ -86,11 +86,35 @@
 header {
     background-color: #282409;
 }
-@media screen and (max-width: 720px) {
+#search-note {
+    width: 15%;
+}
+
+#new-note {
+    position: fixed;
+    right: 40px;
+    bottom: 20px;
+    font-size: 80px;
+    color: #282409;
+}
+@media screen and (max-width: 1000px) {
     #police {
         justify-content: center;
     }
     .card {
-        width: 90%;
+        width: 92%;
+        height: auto;
+    }
+    #logout {
+        width: 100%;
+        margin: 16px 0;
+    }
+    #search-note {
+        margin: 16px;
+        width: 100%;
+    }
+    #sync-notes {
+        margin-bottom: 8px;
+        width: 100%;
     }
 }
